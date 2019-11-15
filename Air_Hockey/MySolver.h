@@ -6,6 +6,7 @@ Date: 2017/07
 #define __MYSOLVER_H_
 
 #include "MyRigidBody.h"
+#include "MyEntity.h"
 
 namespace Simplex
 {
@@ -125,6 +126,12 @@ public:
 	OUTPUT: ---
 	*/
 	void ResolveCollision(MySolver* a_pOther);
+	/*
+	USAGE: Bounces the entity that is hitting this one
+	ARGUMENTS: The entity that is will be bounced
+	OUTPUT: The new velocity of the bounced entity
+	*/
+	void Bounce(MyEntity* bounced);
 private:
 	/*
 	Usage: Deallocates member fields

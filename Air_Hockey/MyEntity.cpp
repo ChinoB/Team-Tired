@@ -323,8 +323,3 @@ void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 {
 	m_bUsePhysicsSolver = a_bUse;
 }
-//NOTE:put in solver
-void Simplex::MyEntity::Bounce(MyEntity* bounced)
-{
-	bounced->SetVelocity(vector3(bounced->GetVelocity.x*-1, bounced->GetVelocity.y*-1, bounced->GetVelocity.z));
-}
