@@ -6,7 +6,6 @@ Date: 2017/07
 #define __MYSOLVER_H_
 
 #include "MyRigidBody.h"
-#include "MyEntity.h"
 
 namespace Simplex
 {
