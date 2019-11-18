@@ -34,7 +34,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "glm_dummy::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-glm_dummy-Debug-9179f70c0bf3ef18783f.json",
+					"jsonFile" : "target-glm_dummy-Debug-471bfd27a4af9d92bc1d.json",
 					"name" : "glm_dummy",
 					"projectIndex" : 0
 				}
@@ -44,8 +44,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "D:/Profiles/cxb6374/source/repos/Team-Tired/include/glm/out/build/x64-Debug",
-		"source" : "D:/Profiles/cxb6374/source/repos/Team-Tired/include/glm"
+		"build" : "C:/Users/Chino/source/repos/Team-Tired/include/glm/out/build/x64-Debug",
+		"source" : "C:/Users/Chino/source/repos/Team-Tired/include/glm"
 	},
 	"version" : 
 	{

@@ -126,12 +126,6 @@ public:
 	OUTPUT: ---
 	*/
 	void ResolveCollision(MySolver* a_pOther);
-	/*
-	USAGE: Bounces the entity that is hitting this one
-	ARGUMENTS: The entity that is will be bounced
-	OUTPUT: The new velocity of the bounced entity
-	*/
-	void Bounce(MyEntity* bounced);
 private:
 	/*
 	Usage: Deallocates member fields

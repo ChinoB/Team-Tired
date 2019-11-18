@@ -267,6 +267,12 @@ public:
 	OUTPUT: ---
 	*/
 	void UsePhysicsSolver(bool a_bUse = true);
+	/*
+	USAGE: Bounces the entity that is hitting this one
+	ARGUMENTS: The entity that is will be bounced
+	OUTPUT: The new velocity of the bounced entity
+	*/
+	void Bounce(MyEntity* bounced);
 
 private:
 	/*

@@ -131,8 +131,3 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 		a_pOther->ApplyForce(-v3Direction);
 	}
 }
-//Bounce the object
-void MySolver::Bounce(MyEntity* bounced)
-{
-	bounced->SetVelocity(vector3(bounced->GetVelocity.x * -1, bounced->GetVelocity.y, bounced->GetVelocity.z));
-}
