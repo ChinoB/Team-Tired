@@ -181,6 +181,12 @@ void Simplex::MyEntityManager::Update(void)
 			//if objects are colliding resolve the collision
 			if (m_mEntityArray[i]->IsColliding(m_mEntityArray[j]))
 			{
+
+				//If something collides with the bouncer, have the object bounce
+				if (m_mEntityArray[i]->GetUniqueID() == "Bouncer")
+				{
+					m_mEntityArray[i]->Bounce(m_mEntityArray[j]);
+				}
 				m_mEntityArray[i]->ResolveCollision(m_mEntityArray[j]);
 			}
 		}
