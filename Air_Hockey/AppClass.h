@@ -19,7 +19,7 @@ class Application
 {
 	MyEntityManager* m_pEntityMngr = nullptr; //Entity Manager
 private:
-	String m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu"; //programmer
+	String m_sProgrammer = "Chino Barcelona \nJoseph Hong \nQuinn Hopwood \nCail Umbraugh "; //programmer
 
 	static ImGuiObject gui; //GUI object
 	bool m_bGUI_Main = true; //show Main GUI window?
@@ -30,8 +30,8 @@ private:
 	uint m_uRenderCallCount = 0; //count of render calls per frame
 	uint m_uControllerCount = 0; //count of controllers connected
 
-	uint m_playerWinScore = 0;
-	uint m_playerLoseScore = 0;
+	uint m_player1Score = 0;//player scores
+	uint m_player2Score = 0;
 
 	bool m_bFocused = true; //is the window focused?
 
@@ -191,6 +191,12 @@ private:
 	OUTPUT: ---
 	*/
 	void ArcBall(float a_fSensitivity = 0.1f);
+	/*
+	USAGE: Sets the world position of targetObject according to the mouse position as cast upon castTo
+	ARGUMENTS: MyEntity targetObj -> the object that's getting it's position updated
+	OUTPUT: ---
+	*/
+	void MouseToWorld(MyEntity* targetObj, MyEntity* castTo);
 	/*
 	USAGE: Manages the rotation of the camera a_fSpeed is a factor of change
 	ARGUMENTS: float a_fSpeed = 0.005f
