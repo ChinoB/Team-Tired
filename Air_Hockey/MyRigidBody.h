@@ -111,6 +111,14 @@ public:
 	OUTPUT: are they colliding?
 	*/
 	bool IsColliding(MyRigidBody* const other);
+
+	/*
+	Usage: Tells if the object is colliding with an incoming ray
+	ARGUMENTS: vector3 a_v3RayOrigin -> Origin of the ray
+	vector3 a_v3RayDirection -> Direction of the incoming ray
+	float& a_fDistance -> Max distance the ray should check
+	*/
+	bool IsColliding(vector3 a_v3RayOrigin, vector3 a_v3RayDirection, float& a_fDistance);	
 #pragma region Accessors
 	/*
 	Usage: Gets visibility of bounding sphere

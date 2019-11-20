@@ -5,20 +5,28 @@ void Application::DrawGUI(void)
 {
 #pragma region Debugging Information
 	//Print info on the screen
-	uint nEmptyLines = 20;
-	for (uint i = 0; i < nEmptyLines; ++i)
-		m_pMeshMngr->PrintLine("");//Add a line on top
-	//m_pMeshMngr->Print("						");
-	m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), C_YELLOW);
-	//m_pMeshMngr->Print("						");
+	
+	m_pMeshMngr->PrintLine("");//Add a line on top
+	m_pMeshMngr->PrintLine("");//Add a line on top
+//m_pMeshMngr->Print("                        ");
+	m_pMeshMngr->Print("Player 1 Score: ");//Add a line on top
+	m_pMeshMngr->PrintLine(std::to_string(m_player1Score), C_YELLOW);
 
-	//m_pMeshMngr->Print("						");
-	m_pMeshMngr->Print("RenderCalls: ");//Add a line on top
-	m_pMeshMngr->PrintLine(std::to_string(m_uRenderCallCount), C_YELLOW);
+	m_pMeshMngr->Print("Player 2 Score: ");//Add a line on top
+	m_pMeshMngr->PrintLine(std::to_string(m_player2Score), C_YELLOW);
 
 	//m_pMeshMngr->Print("						");
 	m_pMeshMngr->Print("FPS:");
 	m_pMeshMngr->PrintLine(std::to_string(m_pSystem->GetFPS()), C_RED);
+	
+	for (uint i = 0; i < 15; i++)
+		m_pMeshMngr->PrintLine("");
+
+	//print the position of the object to the screen
+	vector3 v3Position = m_pEntityMngr->GetEntity(0)->GetPosition();
+	m_pMeshMngr->PrintLine("Mouse Position: ("+ std::to_string(v3Position.x)+", "+ 
+		std::to_string(v3Position.y) + ", "+
+		std::to_string(v3Position.z) + ")",  C_BLUE);
 #pragma endregion
 
 	//Calculate the window size to know how to draw

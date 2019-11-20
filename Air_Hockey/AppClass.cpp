@@ -4,27 +4,43 @@ void Application::InitVariables(void)
 {
 	//Set the position and target of the camera
 	m_pCameraMngr->SetPositionTargetAndUpward(
-		vector3(0.0f, 5.0f, 25.0f), //Position
+		vector3(0.0f, 10.0f, 14.0f), //Position
 		vector3(0.0f, 0.0f, 0.0f),	//Target
 		AXIS_Y);					//Up
 
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
-	m_pEntityMngr->AddEntity("Minecraft\\Steve.obj", "Steve");
-	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Paddle_Revised_HongJ.obj", "Bouncer");
+	m_pEntityMngr->UsePhysicsSolver(true, -1);
+	vector3 v3Position = vector3(0.0f, 2.75f, 0.0f);
+	matrix4 m4Position = glm::translate(v3Position);
+	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
 	
-	for (int i = 0; i < 100; i++)
-	{
-		m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
-		vector3 v3Position = vector3(glm::sphericalRand(12.0f));
-		v3Position.y = 0.0f;
-		matrix4 m4Position = glm::translate(v3Position);
-		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));
-		m_pEntityMngr->UsePhysicsSolver();
-		//m_pEntityMngr->SetMass(2);
-
-		//m_pEntityMngr->SetMass(i+1);
-	}
+	
+	
+	//create the table
+	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Table_Revised_HongJ.obj", "Table");
+	//m_pEntityMngr->UsePhysicsSolver();
+	v3Position = vector3(0.0f);
+	m4Position = glm::translate(v3Position);
+	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));
+	
+	//create the Pieces
+	m_pEntityMngr->AddEntity("AirHockey\\table_base.obj", "TableBase");
+	//m_pEntityMngr->UsePhysicsSolver();
+	v3Position = vector3(0.0f, 0.0f, 0.0f);
+	m4Position = glm::translate(v3Position);
+	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));
+	
+	// create the puck
+	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Puck_Revised_HongJ.obj", "Puck");
+	//m_pEntityMngr->UsePhysicsSolver();
+	v3Position = vector3(0.0f, .55f, 0.0f);
+	m4Position = glm::translate(v3Position);
+	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
+	
+	
+	
 }
 void Application::Update(void)
 {
@@ -34,18 +50,19 @@ void Application::Update(void)
 	//Is the ArcBall active?
 	ArcBall();
 
-	//Is the first person camera active?
-	CameraRotation();
+	//The game has fixed camera so We don't need to call CameraRotation();
+	//CameraRotation(); -- disabled to prevent user from rotating camera
+	
+	//update the position of the player's bouncer according to the position of the mouse
+	MouseToWorld(m_pEntityMngr->GetEntity(0), m_pEntityMngr->GetEntity(1)); 
 
 	//Update Entity Manager
 	m_pEntityMngr->Update();
 
-	//Set the model matrix for the main object
-	//m_pEntityMngr->SetModelMatrix(m_m4Steve, "Steve");
-
 	//Add objects to render list
-	m_pEntityMngr->AddEntityToRenderList(-1, true);
-	//m_pEntityMngr->AddEntityToRenderList(-1, true);
+
+	m_pEntityMngr->AddEntityToRenderList(-1, true);//draw puck
+	
 }
 void Application::Display(void)
 {

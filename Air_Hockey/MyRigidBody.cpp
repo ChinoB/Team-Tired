@@ -326,6 +326,47 @@ bool MyRigidBody::IsColliding(MyRigidBody* const other)
 	}
 	return bColliding;
 }
+bool MyRigidBody::IsColliding(vector3 a_v3RayOrigin, vector3 a_v3RayDirection, float& a_fDistance) {
+	//r.dir is the unit direction vector of the ray
+	vector3 dirfrac;
+	dirfrac.x = 1.0f / a_v3RayDirection.x;
+	dirfrac.y = 1.0f / a_v3RayDirection.y;
+	dirfrac.z = 1.0f / a_v3RayDirection.z;
+
+	//lb is the corner of AABB with minimal coordinates = left bottom and rt is the maximum corner
+	//r.org is the origin of the ray
+	vector3 min = m_v3MinG;
+	vector3 max = m_v3MaxG;
+
+	float t1 = (min.x - a_v3RayOrigin.x) * dirfrac.x;
+	float t2 = (max.x - a_v3RayOrigin.x) * dirfrac.x;
+
+	float t3 = (min.y - a_v3RayOrigin.y) * dirfrac.y;
+	float t4 = (max.y - a_v3RayOrigin.y) * dirfrac.y;
+
+	float t5 = (min.z - a_v3RayOrigin.z) * dirfrac.z;
+	float t6 = (max.z - a_v3RayOrigin.z) * dirfrac.z;
+
+	float tmin = std::max(std::max(std::min(t1, t2), std::min(t3, t4)), std::min(t5, t6));
+	float tmax = std::min(std::min(std::max(t1, t2), std::max(t3, t4)), std::max(t5, t6));
+	a_fDistance = tmin;
+
+	//if tmax < -, then the entire ray is intersecting AABB, but the whole AABB is behind us
+	if (tmax < 0) { 
+
+		a_fDistance = tmax;
+		return false;
+	}
+	//if tmin > tmax then the line doesn't intersect AABB
+	if (tmin > tmax) {
+		a_fDistance = tmax;
+		return false;
+
+	}
+
+	//otherwise ther is a collision
+	return true;
+}
 
 void MyRigidBody::AddToRenderList(void)
 {
