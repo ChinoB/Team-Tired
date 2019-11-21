@@ -17,14 +17,7 @@ void Application::InitVariables(void)
 	vector3 v3Position = vector3(0.0f, 2.75f, 0.0f);
 	matrix4 m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
-	
-	//create the bumper
-	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Bouncer_Revised_HongJ.obj", "Bumper");
-	//m_pEntityMngr->UsePhysicsSolver();
-	v3Position = vector3(-1.0f, 0.468500f, -5.0f);
-	m4Position = glm::translate(v3Position);
-	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
-	
+
 	//create the table
 	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Table_Revised_HongJ.obj", "Table");
 	//m_pEntityMngr->UsePhysicsSolver();
@@ -45,9 +38,13 @@ void Application::InitVariables(void)
 	v3Position = vector3(0.0f, .55f, 0.0f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
-	
-	
-	
+
+	//create the bumper
+	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Bouncer_Revised_HongJ.obj", "Bumper");
+	//m_pEntityMngr->UsePhysicsSolver();
+	v3Position = vector3(-1.0f, 0.468500f, -5.0f);
+	m4Position = glm::translate(v3Position);
+	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
 }
 void Application::Update(void)
 {
