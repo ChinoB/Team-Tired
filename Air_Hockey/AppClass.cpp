@@ -10,14 +10,14 @@ void Application::InitVariables(void)
 
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
+
+	//create the bouncer
 	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Paddle_Revised_HongJ.obj", "Bouncer");
 	m_pEntityMngr->UsePhysicsSolver(true, -1);
 	vector3 v3Position = vector3(0.0f, 2.75f, 0.0f);
 	matrix4 m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
-	
-	
-	
+
 	//create the table
 	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Table_Revised_HongJ.obj", "Table");
 	//m_pEntityMngr->UsePhysicsSolver();
@@ -38,9 +38,19 @@ void Application::InitVariables(void)
 	v3Position = vector3(0.0f, .55f, 0.0f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
+
+	//create the bumper
+	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Bouncer_Revised_HongJ.obj", "Bumper");
+	//m_pEntityMngr->UsePhysicsSolver();
+	v3Position = vector3(-1.0f, 0.468500f, -5.0f);
+	m4Position = glm::translate(v3Position);
+	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
 	
 	
-	
+	m_uOctantLevels = 3;
+	m_pRoot = new MyOctant(m_uOctantLevels, 5);
+	m_pEntityMngr->Update();
+
 }
 void Application::Update(void)
 {
@@ -71,6 +81,17 @@ void Application::Display(void)
 
 	// draw a skybox
 	m_pMeshMngr->AddSkyboxToRenderList();
+
+	//display octree
+	if (m_uOctantID == -1)
+	{
+		m_pRoot->Display();
+	}
+
+	else
+	{
+		m_pRoot->Display(m_uOctantID);
+	}
 
 	//render list call
 	m_uRenderCallCount = m_pMeshMngr->Render();
