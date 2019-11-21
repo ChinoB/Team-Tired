@@ -54,6 +54,10 @@ void Application::DrawGUI(void)
 			ImGui::Text("	 F3: Orthographic Y\n");
 			ImGui::Text("	 F4: Orthographic Z\n");
 			ImGui::Separator();
+			ImGui::Text(" PageUp: Increment Octant display\n");
+			ImGui::Text(" PageDw: Decrement Octant display\n");
+			ImGui::Text("Levels in Octree: %d\n", m_uOctantLevels);
+			ImGui::Separator();
 			ImGui::Text("Arrows: Apply force to Steve\n");
 		}
 		ImGui::End();

@@ -82,15 +82,17 @@ void Application::Display(void)
 	m_pMeshMngr->AddSkyboxToRenderList();
 
 	//display octree
-	if (m_uOctantID == -1)
+	/*if (m_uOctantID == -1)
 	{
-		m_pRoot->Display();
 	}
 
 	else
 	{
 		m_pRoot->Display(m_uOctantID);
-	}
+	}*/
+
+	m_pRoot->Display();
+
 
 	//render list call
 	m_uRenderCallCount = m_pMeshMngr->Render();
