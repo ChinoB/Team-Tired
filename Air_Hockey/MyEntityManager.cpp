@@ -182,8 +182,8 @@ void Simplex::MyEntityManager::Update(void)
 			if (m_mEntityArray[i]->IsColliding(m_mEntityArray[j]))
 			{
 
-				//If something collides with the bouncer, have the object bounce
-				if (m_mEntityArray[i]->GetUniqueID() == "Bouncer")
+				//If something collides with the bumper, have the object bounce
+				if (m_mEntityArray[i]->GetUniqueID() == "Bumper")
 				{
 					m_mEntityArray[i]->Bounce(m_mEntityArray[j]);
 				}
