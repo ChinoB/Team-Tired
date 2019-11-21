@@ -381,10 +381,13 @@ void Application::MouseToWorld(MyEntity* myObj, MyEntity* castTo) {
 	float distance = 0.0f;
 	//using ray, find where it collides with a rigidbody in the world
 	if (castTo->GetRigidBody()->IsColliding(rayStartEnd.first, rayStartEnd.second, distance)) {
-		vector3 falsePosition = rayStartEnd.second * distance;
-		falsePosition.z += 13.0f;
-		falsePosition.y = .5f;
-		myObj->SetPosition(falsePosition);
+		vector3 targetPosition = rayStartEnd.second * distance;
+		targetPosition.z += 13.0f;//change this to reflect the rotation of the camera
+		targetPosition.y = .5f;
+
+		vector3 currentPosition = myObj->GetPosition();
+		vector3 displacement =  targetPosition - currentPosition;
+		myObj->ApplyForce(displacement);
 	}
 }
 //Keyboard

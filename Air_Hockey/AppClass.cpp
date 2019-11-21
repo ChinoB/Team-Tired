@@ -18,9 +18,8 @@ void Application::InitVariables(void)
 	matrix4 m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
 
-	//create the table
+	//create the table -- note this is superficial, it doesn't have the solver active on it and therefore doesn't collide with anything
 	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Table_Revised_HongJ.obj", "Table");
-	//m_pEntityMngr->UsePhysicsSolver();
 	v3Position = vector3(0.0f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));

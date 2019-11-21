@@ -34,6 +34,8 @@ Model* Simplex::MyEntity::GetModel(void){return m_pModel;}
 MyRigidBody* Simplex::MyEntity::GetRigidBody(void){	return m_pRigidBody; }
 bool Simplex::MyEntity::IsInitialized(void){ return m_bInMemory; }
 String Simplex::MyEntity::GetUniqueID(void) { return m_sUniqueID; }
+String Simplex::MyEntity::GetTag(void) { return m_sTag; }
+void Simplex::MyEntity::SetTag(String a_sTag) { if (a_sTag.length() != 0) m_sTag = a_sTag; }
 void Simplex::MyEntity::SetAxisVisible(bool a_bSetAxis) { m_bSetAxis = a_bSetAxis; }
 void Simplex::MyEntity::SetPosition(vector3 a_v3Position) { if(m_pSolver) m_pSolver->SetPosition(a_v3Position); }
 Simplex::vector3 Simplex::MyEntity::GetPosition(void)
