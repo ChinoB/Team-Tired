@@ -45,6 +45,12 @@ void Application::InitVariables(void)
 	v3Position = vector3(-1.0f, 0.468500f, -5.0f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
+	
+	
+	m_uOctantLevels = 3;
+	m_pRoot = new MyOctant(m_uOctantLevels, 5);
+	m_pEntityMngr->Update();
+
 }
 void Application::Update(void)
 {
@@ -75,6 +81,17 @@ void Application::Display(void)
 
 	// draw a skybox
 	m_pMeshMngr->AddSkyboxToRenderList();
+
+	//display octree
+	if (m_uOctantID == -1)
+	{
+		m_pRoot->Display();
+	}
+
+	else
+	{
+		m_pRoot->Display(m_uOctantID);
+	}
 
 	//render list call
 	m_uRenderCallCount = m_pMeshMngr->Render();
