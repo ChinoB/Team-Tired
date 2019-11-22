@@ -326,8 +326,13 @@ void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 	m_bUsePhysicsSolver = a_bUse;
 }
 //Note: not perfect, need to think in more detail later
+//ACTUAL WAY (hopefully):
+//Check for if the object that's gonna be bounced hit the side or top or bottom
+//If top or bottom, y*-1, if side, x*-1
+//Else both *-1 (shouldn't be applied often)
 void Simplex::MyEntity::Bounce(MyEntity* bounced)
 {
-	//bounced->SetVelocity(vector3(bounced->GetVelocity().x * -1, bounced->GetVelocity().y * -1, bounced->GetVelocity().z));
-	bounced->ApplyForce(bounced->GetVelocity()*bounced->GetMass()*-1);
+	//for testing purposes, doesn't work for all scenarios
+	bounced->SetVelocity(vector3(bounced->GetVelocity().x, bounced->GetVelocity().y * -1, bounced->GetVelocity().z)); //set the velocity to be used for the force below
+	bounced->ApplyForce(bounced->GetVelocity()*bounced->GetVelocity()*bounced->GetMass()); //based on force formula
 }
