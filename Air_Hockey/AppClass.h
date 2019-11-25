@@ -11,6 +11,7 @@ Date: 2017/06
 #include "imgui\ImGuiObject.h"
 
 #include "MyEntityManager.h"
+#include "Octtree.h"
 
 namespace Simplex
 {
@@ -18,8 +19,16 @@ namespace Simplex
 class Application
 {
 	MyEntityManager* m_pEntityMngr = nullptr; //Entity Manager
+	MyOctant* m_pRoot = nullptr;
+	uint m_uOctantID = -1; //Index of Octant to display
+	uint m_uObjects = 0; //Number of objects in the scene
+	uint m_uOctantLevels = 0; //Number of levels in the octree
+
+	vector3 v3Position;
+	matrix4 m4Position;
+
 private:
-	String m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu"; //programmer
+	String m_sProgrammer = "Chino Barcelona \nJoseph Hong \nQuinn Hopwood \nCail Umbraugh "; //programmer
 
 	static ImGuiObject gui; //GUI object
 	bool m_bGUI_Main = true; //show Main GUI window?
@@ -29,6 +38,9 @@ private:
 
 	uint m_uRenderCallCount = 0; //count of render calls per frame
 	uint m_uControllerCount = 0; //count of controllers connected
+
+	uint m_player1Score = 0;//player scores
+	uint m_player2Score = 0;
 
 	bool m_bFocused = true; //is the window focused?
 
@@ -92,6 +104,23 @@ public:
 	OUTPUT: ---
 	*/
 	void Run(void);
+
+	/*
+	USAGE: Add a score to a player
+	ARGUMENTS:
+	-	uint a_uPlayer -> 1 for player1, 2 for player2
+	-	uint a_uScore -> The score to be set to the player
+	OUTPUT: ---
+	*/
+	void updateScore(uint a_uPlayer, uint a_uScore);
+
+	/*
+	USAGE: Adds a puck to the entity manager
+	ARGUMENTS: ---
+	OUTPUT: ---
+	*/
+	void addPuck(void);
+
 	/*
 	USAGE: Destructor
 	ARGUMENTS: ---
@@ -188,6 +217,12 @@ private:
 	OUTPUT: ---
 	*/
 	void ArcBall(float a_fSensitivity = 0.1f);
+	/*
+	USAGE: Sets the world position of targetObject according to the mouse position as cast upon castTo
+	ARGUMENTS: MyEntity targetObj -> the object that's getting it's position updated
+	OUTPUT: ---
+	*/
+	void MouseToWorld(MyEntity* targetObj, MyEntity* castTo);
 	/*
 	USAGE: Manages the rotation of the camera a_fSpeed is a factor of change
 	ARGUMENTS: float a_fSpeed = 0.005f
