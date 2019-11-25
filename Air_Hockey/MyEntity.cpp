@@ -334,7 +334,7 @@ void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
 bool Simplex::MyEntity::inGoal(void)
 {
 
-		return true;
+		return false;
 }
 void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 {
