@@ -2,11 +2,11 @@
 using namespace Simplex;
 using namespace std;
 //Setting up initial values in oct tree
-uint MyOctant::m_uOctantCount = 3;
+uint MyOctant::m_uOctantCount = 0;
 //maximum of 4 levels (for now)
 uint MyOctant::m_uMaxLevel = 5;
 //subdivide if there is more than 8 blocks (entities = objects)
-uint MyOctant::m_uIdealEntityCount = 1;
+uint MyOctant::m_uIdealEntityCount = 3;
 uint MyOctant::GetOctantCount(void) { return m_uOctantCount; }
 
 //Initializing my octant

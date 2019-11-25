@@ -183,7 +183,7 @@ void Simplex::MyEntityManager::Update(void)
 			{
 
 				//If something collides with the bumper, have the object bounce
-				if (m_mEntityArray[i]->GetUniqueID() == "Bumper")
+				if (m_mEntityArray[i]->GetTag() == "Bumper")
 				{
 					m_mEntityArray[i]->Bounce(m_mEntityArray[j]);
 				}
