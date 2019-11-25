@@ -23,6 +23,10 @@ class Application
 	uint m_uOctantID = -1; //Index of Octant to display
 	uint m_uObjects = 0; //Number of objects in the scene
 	uint m_uOctantLevels = 0; //Number of levels in the octree
+
+	vector3 v3Position;
+	matrix4 m4Position;
+
 private:
 	String m_sProgrammer = "Chino Barcelona \nJoseph Hong \nQuinn Hopwood \nCail Umbraugh "; //programmer
 
@@ -100,6 +104,23 @@ public:
 	OUTPUT: ---
 	*/
 	void Run(void);
+
+	/*
+	USAGE: Add a score to a player
+	ARGUMENTS:
+	-	uint a_uPlayer -> 1 for player1, 2 for player2
+	-	uint a_uScore -> The score to be set to the player
+	OUTPUT: ---
+	*/
+	void updateScore(uint a_uPlayer, uint a_uScore);
+
+	/*
+	USAGE: Adds a puck to the entity manager
+	ARGUMENTS: ---
+	OUTPUT: ---
+	*/
+	void addPuck(void);
+
 	/*
 	USAGE: Destructor
 	ARGUMENTS: ---
