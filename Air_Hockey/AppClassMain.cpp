@@ -51,6 +51,10 @@ void Simplex::Application::addPuck(void)
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
 	m_pEntityMngr->GetEntity(-1)->SetTag("Puck");
+	
+	m_uOctantLevels = 0;
+	m_pRoot = new MyOctant(m_uOctantLevels, 5);
+	m_pEntityMngr->Update();
 }
 
 

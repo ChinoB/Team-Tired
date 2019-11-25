@@ -11,7 +11,7 @@ void Application::InitVariables(void)
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
 
-	//create the bouncer
+	//create the paddle
 	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Paddle_Revised_HongJ.obj", "Paddle");
 	m_pEntityMngr->UsePhysicsSolver(true, -1);
 	m_pEntityMngr->GetEntity(-1)->SetMass(1.0f);
@@ -64,9 +64,6 @@ void Application::InitVariables(void)
 		m_pEntityMngr->GetEntity(-1)->SetTag("Wall");
 	}
 
-	// create the puck
-	addPuck();
-
 	//create the bumper
 	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Bouncer_Revised_HongJ.obj", "Bumper");
 	m_pEntityMngr->UsePhysicsSolver();
@@ -76,7 +73,9 @@ void Application::InitVariables(void)
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.33f)));
 	m_pEntityMngr->GetEntity(-1)->SetTag("Bumper");
 	
-	
+	// create the puck
+	addPuck();
+
 	m_uOctantLevels = 0;
 	m_pRoot = new MyOctant(m_uOctantLevels, 5);
 	m_pEntityMngr->Update();
@@ -93,13 +92,12 @@ void Application::Update(void)
 	//The game has fixed camera so We don't need to call CameraRotation();
 	//CameraRotation(); //-- disabled to prevent user from rotating camera
 	
-	//update the position of the player's bouncer according to the position of the mouse
+	//update the position of the player's paddle according to the position of the mouse
 	MouseToWorld(m_pEntityMngr->GetEntity(0), m_pEntityMngr->GetEntity(1)); 
 
 	//check if the puck is out of bounds of the board
 	vector3 maxTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMaxGlobal();
 	vector3 minTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMinGlobal();
-
 	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
 	{
 		if (m_pEntityMngr->GetEntity(i)->GetTag() == "Puck")
