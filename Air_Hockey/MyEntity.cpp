@@ -311,6 +311,16 @@ void Simplex::MyEntity::Update(void)
 	if (m_bUsePhysicsSolver)
 	{
 		m_pSolver->Update();
+		if (this->m_sTag == "Puck" || this->m_sTag == "Paddle") {
+			//hardcoded positional data
+			vector3 tempVelocity = GetVelocity();
+			tempVelocity.y = 0;
+			SetVelocity(tempVelocity);
+			vector3 tempPosition = GetPosition();
+			tempPosition.y = .45f;
+			SetPosition(tempPosition);
+			
+		}
 		SetModelMatrix(glm::translate(m_pSolver->GetPosition()) * glm::scale(m_pSolver->GetSize()));
 	}
 }

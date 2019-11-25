@@ -410,12 +410,22 @@ void Application::MouseToWorld(MyEntity* myObj, MyEntity* castTo) {
 	//using ray, find where it collides with a rigidbody in the world
 	if (castTo->GetRigidBody()->IsColliding(rayStartEnd.first, rayStartEnd.second, distance)) {
 		vector3 targetPosition = rayStartEnd.second * distance;
-		targetPosition.z += 13.0f;//change this to reflect the rotation of the camera
+		targetPosition.z += 15.0f;//change this to reflect the rotation of the camera
 		targetPosition.y = .5f;
 
 		vector3 currentPosition = myObj->GetPosition();
 		vector3 displacement =  targetPosition - currentPosition;
+		
+		
 		myObj->ApplyForce(displacement);
+		
+	}
+	else {
+		//the mouse is out of bounds of the viable area, stop the player's bumper
+		myObj->SetVelocity(vector3(0.0f, 0.0f, 0.0f));
+		vector3 tempPos = myObj->GetPosition();
+		tempPos.y = .465f;
+		myObj->SetPosition(tempPos);
 	}
 }
 //Keyboard
