@@ -34,6 +34,8 @@ Model* Simplex::MyEntity::GetModel(void){return m_pModel;}
 MyRigidBody* Simplex::MyEntity::GetRigidBody(void){	return m_pRigidBody; }
 bool Simplex::MyEntity::IsInitialized(void){ return m_bInMemory; }
 String Simplex::MyEntity::GetUniqueID(void) { return m_sUniqueID; }
+String Simplex::MyEntity::GetTag(void) { return m_sTag; }
+void Simplex::MyEntity::SetTag(String a_sTag) { if (a_sTag.length() != 0) m_sTag = a_sTag; }
 void Simplex::MyEntity::SetAxisVisible(bool a_bSetAxis) { m_bSetAxis = a_bSetAxis; }
 void Simplex::MyEntity::SetPosition(vector3 a_v3Position) { if(m_pSolver) m_pSolver->SetPosition(a_v3Position); }
 Simplex::vector3 Simplex::MyEntity::GetPosition(void)
@@ -309,6 +311,16 @@ void Simplex::MyEntity::Update(void)
 	if (m_bUsePhysicsSolver)
 	{
 		m_pSolver->Update();
+		if (this->m_sTag == "Puck" || this->m_sTag == "Paddle") {
+			//hardcoded positional data
+			vector3 tempVelocity = GetVelocity();
+			tempVelocity.y = 0;
+			SetVelocity(tempVelocity);
+			vector3 tempPosition = GetPosition();
+			tempPosition.y = .45f;
+			SetPosition(tempPosition);
+			
+		}
 		SetModelMatrix(glm::translate(m_pSolver->GetPosition()) * glm::scale(m_pSolver->GetSize()));
 	}
 }
@@ -319,6 +331,11 @@ void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
 		m_pSolver->ResolveCollision(a_pOther->GetSolver());
 	}
 }
+bool Simplex::MyEntity::inGoal(void)
+{
+
+		return false;
+}
 void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 {
 	m_bUsePhysicsSolver = a_bUse;
@@ -326,5 +343,6 @@ void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 //Note: not perfect, need to think in more detail later
 void Simplex::MyEntity::Bounce(MyEntity* bounced)
 {
-	bounced->SetVelocity(vector3(bounced->GetVelocity().x * -1, bounced->GetVelocity().y * -1, bounced->GetVelocity().z));
+	//bounced->SetVelocity(vector3(bounced->GetVelocity().x * -1, bounced->GetVelocity().y * -1, bounced->GetVelocity().z));
+	bounced->ApplyForce(bounced->GetVelocity()*bounced->GetMass()*-1);
 }

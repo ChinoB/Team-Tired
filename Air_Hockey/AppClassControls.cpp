@@ -19,6 +19,7 @@ void Application::ProcessMousePressed(sf::Event a_event)
 	default: break;
 	case sf::Mouse::Button::Left:
 		gui.m_bMousePressed[0] = true;
+		
 		break;
 	case sf::Mouse::Button::Middle:
 		gui.m_bMousePressed[1] = true;
@@ -72,8 +73,7 @@ void Application::ProcessKeyPressed(sf::Event a_event)
 	{
 	default: break;
 	case sf::Keyboard::Space:
-		m_sound.play();
-		m_pEntityMngr->ApplyForce(vector3(0.0f, 1.0f, 0.0f), "Steve");
+		addPuck();
 		break;
 	case sf::Keyboard::LShift:
 	case sf::Keyboard::RShift:
@@ -112,13 +112,41 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 		bFPSControl = !bFPSControl;
 		m_pCameraMngr->SetFPS(bFPSControl);
 		break;
-	case sf::Keyboard::PageUp:
+	/*case sf::Keyboard::PageUp:
+		++m_uOctantID;
+
+		if (m_uOctantID >= m_pRoot->GetOctantCount())
+			m_uOctantID = -1;
+
 		break;
 	case sf::Keyboard::PageDown:
-		break;
+		--m_uOctantID;
+
+		if (m_uOctantID >= m_pRoot->GetOctantCount())
+			m_uOctantID = -1;
+
+		break;*/
 	case sf::Keyboard::Add:
+		if (m_uOctantLevels < 4)
+		{
+			m_pEntityMngr->ClearDimensionSetAll();
+			++m_uOctantLevels;
+
+			SafeDelete(m_pRoot);
+			m_pRoot = new MyOctant(m_uOctantLevels, 5);
+
+		}
 		break;
 	case sf::Keyboard::Subtract:
+		if (m_uOctantLevels > 0)
+		{
+			m_pEntityMngr->ClearDimensionSetAll();
+			--m_uOctantLevels;
+
+			SafeDelete(m_pRoot);
+			m_pRoot = new MyOctant(m_uOctantLevels, 5);
+
+		}
 		break;
 	case sf::Keyboard::LShift:
 	case sf::Keyboard::RShift:
@@ -375,6 +403,34 @@ void Application::CameraRotation(float a_fSpeed)
 	m_pCameraMngr->ChangePitch(-fAngleX * 0.25f);
 	SetCursorPos(CenterX, CenterY);//Position the mouse in the center
 }
+void Application::MouseToWorld(MyEntity* myObj, MyEntity* castTo) {
+	//create direction ray from screen to world for mouse and return its start and end
+	std::pair<vector3, vector3> rayStartEnd = m_pCameraMngr->GetClickAndDirectionOnWorldSpace(m_v3Mouse.x, m_v3Mouse.y, -1);
+	float distance = 0.0f;
+	//using ray, find where it collides with a rigidbody in the world
+	if (castTo->GetRigidBody()->IsColliding(rayStartEnd.first, rayStartEnd.second, distance)) {
+		vector3 targetPosition = rayStartEnd.second * distance;
+		
+
+		targetPosition.y = .5f;
+
+		vector3 currentPosition = myObj->GetPosition();
+		currentPosition.z -=15.0f;
+		//currentPosition.x -=6.0f;
+		vector3 displacement =  targetPosition - currentPosition;
+		
+		
+		myObj->ApplyForce(displacement);
+		
+	}
+	else {
+		//the mouse is out of bounds of the viable area, stop the player's bumper
+		myObj->SetVelocity(vector3(0.0f, 0.0f, 0.0f));
+		vector3 tempPos = myObj->GetPosition();
+		tempPos.y = .465f;
+		myObj->SetPosition(tempPos);
+	}
+}
 //Keyboard
 void Application::ProcessKeyboard(void)
 {
@@ -392,48 +448,7 @@ void Application::ProcessKeyboard(void)
 	if (bMultiplier)
 		fMultiplier = 5.0f;
 
-#pragma region Camera Position
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		m_pCameraMngr->MoveForward(m_fMovementSpeed * fMultiplier);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		m_pCameraMngr->MoveForward(-m_fMovementSpeed * fMultiplier);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		m_pCameraMngr->MoveSideways(-m_fMovementSpeed * fMultiplier);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		m_pCameraMngr->MoveSideways(m_fMovementSpeed * fMultiplier);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-		m_pCameraMngr->MoveVertical(-m_fMovementSpeed * fMultiplier);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-		m_pCameraMngr->MoveVertical(m_fMovementSpeed * fMultiplier);
-#pragma endregion
-
-#pragma region Character Position
-	float fDelta = m_pSystem->GetDeltaTime(0);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		m_pEntityMngr->ApplyForce(vector3(-2.0f * fDelta, 0.0f, 0.0f), "Steve");
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		m_pEntityMngr->ApplyForce(vector3(2.0f * fDelta, 0.0f, 0.0f), "Steve");
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-	{
-		m_pEntityMngr->ApplyForce(vector3(0.0f, 0.0f, -2.0f * fDelta), "Steve");
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-	{
-		m_pEntityMngr->ApplyForce(vector3(0.0f, 0.0f, 2.0f * fDelta), "Steve");
-	}
-#pragma endregion
 }
 //Joystick
 void Application::ProcessJoystick(void)

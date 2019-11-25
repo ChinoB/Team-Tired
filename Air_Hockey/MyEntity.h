@@ -16,7 +16,7 @@ class MyEntity
 	bool m_bInMemory = false; //loaded flag
 	bool m_bSetAxis = false; //render axis flag
 	String m_sUniqueID = ""; //Unique identifier name
-
+	String m_sTag = "";//tags are strings which identify "types" of objects, IE all pucks will have the "Puck" tag, this is helpful in collision resolution
 	uint m_nDimensionCount = 0; //tells how many dimensions this entity lives in
 	uint* m_DimensionArray = nullptr; //Dimensions on which this entity is located
 
@@ -125,6 +125,18 @@ public:
 	OUTPUT: ---
 	*/
 	String GetUniqueID(void);
+	/*
+	USAGE: Get's the tag of this Enity
+	ARGUMENTS: ---
+	Output: Tag of this model
+	*/
+	String GetTag(void);
+	/*
+	USAGE: Set's the tag of the current model
+	ARGUMENTS: String a_sTag - sets the tag of the current model to the given string
+	OUTPUT: ---
+	*/
+	void SetTag(String a_sTag);
 	/*
 	USAGE: Sets the visibility of the axis of this MyEntity
 	ARGUMENTS: bool a_bSetAxis = true -> axis visible?
@@ -273,6 +285,12 @@ public:
 	OUTPUT: The new velocity of the bounced entity
 	*/
 	void Bounce(MyEntity* bounced);
+
+	/*
+	USAGE: check if the entity is within the bounds of the goal
+	OUTPUT: true if in goal, false if not
+	*/
+	bool inGoal(void);
 
 private:
 	/*

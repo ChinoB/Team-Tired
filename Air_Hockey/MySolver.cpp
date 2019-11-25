@@ -94,7 +94,7 @@ void MySolver::Update(void)
 
 	m_v3Velocity += m_v3Acceleration;
 	
-	float fMaxVelocity = 5.0f;
+	float fMaxVelocity = 2.0f;
 	m_v3Velocity = CalculateMaxVelocity(m_v3Velocity, fMaxVelocity);
 
 	ApplyFriction(0.1f);
@@ -127,7 +127,7 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 		if(glm::length(v3Direction) != 0)
 			v3Direction = glm::normalize(v3Direction);
 		v3Direction *= 0.04f;
-		ApplyForce(v3Direction);
-		a_pOther->ApplyForce(-v3Direction);
+		ApplyForce(-v3Direction);
+		a_pOther->ApplyForce(v3Direction);
 	}
 }

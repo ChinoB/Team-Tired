@@ -27,7 +27,38 @@ sf::Image LoadImageFromResource(const std::string& name)
 Application::Application() {}
 Application::Application(Application const& input) {}
 Application& Application::operator=(Application const& input) { return *this; }
-Application::~Application(void) 
+void Simplex::Application::updateScore(uint a_uPlayer, uint a_uScore)
+{
+	switch (a_uPlayer)
+	{
+	case 1:
+		m_player1Score = a_uScore;
+		break;
+	case 2:
+		m_player2Score = a_uScore;
+		break;
+	default:
+		break;
+	}
+}
+
+void Simplex::Application::addPuck(void)
+{
+	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Puck_Revised_HongJ.obj", "Puck");
+	m_pEntityMngr->UsePhysicsSolver(true, -1);
+	m_pEntityMngr->GetEntity(-1)->SetMass(1.0f);
+	v3Position = vector3(2.0f, 1.0f, 0.0f);
+	m4Position = glm::translate(v3Position);
+	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
+	m_pEntityMngr->GetEntity(-1)->SetTag("Puck");
+	
+	m_uOctantLevels = 0;
+	m_pRoot = new MyOctant(m_uOctantLevels, 5);
+	m_pEntityMngr->Update();
+}
+
+
+Application::~Application(void)
 {
 	Release();
 	
