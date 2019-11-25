@@ -5,9 +5,11 @@ void Application::DrawGUI(void)
 {
 #pragma region Debugging Information
 	//Print info on the screen
-	
-	m_pMeshMngr->PrintLine("");//Add a line on top
-	m_pMeshMngr->PrintLine("");//Add a line on top
+	for (int i = 0; i < 10; i++)
+	{
+		m_pMeshMngr->PrintLine("");//Add a line on top
+	}
+
 //m_pMeshMngr->Print("                        ");
 	m_pMeshMngr->Print("Player 1 Score: ");//Add a line on top
 	m_pMeshMngr->PrintLine(std::to_string(m_player1Score), C_YELLOW);
