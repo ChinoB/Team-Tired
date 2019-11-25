@@ -73,7 +73,7 @@ void Application::ProcessKeyPressed(sf::Event a_event)
 	{
 	default: break;
 	case sf::Keyboard::Space:
-		
+		addPuck();
 		break;
 	case sf::Keyboard::LShift:
 	case sf::Keyboard::RShift:

@@ -41,6 +41,19 @@ void Simplex::Application::updateScore(uint a_uPlayer, uint a_uScore)
 		break;
 	}
 }
+
+void Simplex::Application::addPuck(void)
+{
+	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Puck_Revised_HongJ.obj", "Puck");
+	m_pEntityMngr->UsePhysicsSolver(true, -1);
+	m_pEntityMngr->GetEntity(-1)->SetMass(1.0f);
+	v3Position = vector3(2.0f, 1.0f, 0.0f);
+	m4Position = glm::translate(v3Position);
+	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
+	m_pEntityMngr->GetEntity(-1)->SetTag("Puck");
+}
+
+
 Application::~Application(void)
 {
 	Release();

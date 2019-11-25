@@ -191,7 +191,7 @@ void Simplex::MyEntityManager::Update(void)
 			}
 
 			//Check if puck is in goal
-			if (m_mEntityArray[i]->GetUniqueID() == "Puck" && m_mEntityArray[i]->inGoal())
+			if (m_mEntityArray[i]->GetTag() == "Puck" && m_mEntityArray[i]->inGoal())
 			{
 				
 				RemoveEntity(i);

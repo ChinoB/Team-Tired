@@ -65,13 +65,7 @@ void Application::InitVariables(void)
 	}
 
 	// create the puck
-	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Puck_Revised_HongJ.obj", "Puck");
-	m_pEntityMngr->UsePhysicsSolver(true, -1);
-	m_pEntityMngr->GetEntity(-1)->SetMass(1.0f);
-	v3Position = vector3(2.0f, 1.0f, 0.0f);
-	m4Position = glm::translate(v3Position);
-	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
-	m_pEntityMngr->GetEntity(-1)->SetTag("Puck");
+	addPuck();
 
 	//create the bumper
 	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Bouncer_Revised_HongJ.obj", "Bumper");
@@ -105,21 +99,29 @@ void Application::Update(void)
 	//check if the puck is out of bounds of the board
 	vector3 maxTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMaxGlobal();
 	vector3 minTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMinGlobal();
-	vector3 puckPosition = m_pEntityMngr->GetEntity(6)->GetRigidBody()->GetCenterGlobal();
 
-	//place puck back in table x
-	if (maxTable.x < puckPosition.x)
-		puckPosition.x -=  .50f;
-	if (minTable.x > puckPosition.x)
-		puckPosition.x += .50f;
+	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
+	{
+		if (m_pEntityMngr->GetEntity(i)->GetTag() == "Puck")
+		{
+			vector3 puckPosition = m_pEntityMngr->GetEntity(i)->GetRigidBody()->GetCenterGlobal();
 
-	//place puck back on table z
-	if (maxTable.z < puckPosition.z)
-		puckPosition.z -= .50f;
-	if (minTable.z > puckPosition.z)
-		puckPosition.z += .50f;
+			//place puck back in table x
+			if (maxTable.x < puckPosition.x)
+				puckPosition.x -= .50f;
+			if (minTable.x > puckPosition.x)
+				puckPosition.x += .50f;
 
-	m_pEntityMngr->GetEntity(6)->SetPosition(puckPosition);
+			//place puck back on table z
+			if (maxTable.z < puckPosition.z)
+				puckPosition.z -= .50f;
+			if (minTable.z > puckPosition.z)
+				puckPosition.z += .50f;
+
+			m_pEntityMngr->GetEntity(i)->SetPosition(puckPosition);
+		}
+	}
+	
 	//Update Entity Manager
 	m_pEntityMngr->Update();
 
