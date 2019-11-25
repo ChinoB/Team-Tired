@@ -100,6 +100,16 @@ public:
 	OUTPUT: ---
 	*/
 	void Run(void);
+
+	/*
+	USAGE: Add a score to a player
+	ARGUMENTS:
+	-	uint a_uPlayer -> 1 for player1, 2 for player2
+	-	uint a_uScore -> The score to be set to the player
+	OUTPUT: ---
+	*/
+	void updateScore(uint a_uPlayer, uint a_uScore);
+
 	/*
 	USAGE: Destructor
 	ARGUMENTS: ---

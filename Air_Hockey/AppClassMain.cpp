@@ -27,7 +27,21 @@ sf::Image LoadImageFromResource(const std::string& name)
 Application::Application() {}
 Application::Application(Application const& input) {}
 Application& Application::operator=(Application const& input) { return *this; }
-Application::~Application(void) 
+void Simplex::Application::updateScore(uint a_uPlayer, uint a_uScore)
+{
+	switch (a_uPlayer)
+	{
+	case 1:
+		m_player1Score = a_uScore;
+		break;
+	case 2:
+		m_player2Score = a_uScore;
+		break;
+	default:
+		break;
+	}
+}
+Application::~Application(void)
 {
 	Release();
 	

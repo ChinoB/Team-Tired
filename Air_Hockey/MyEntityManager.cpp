@@ -189,6 +189,13 @@ void Simplex::MyEntityManager::Update(void)
 				}
 				m_mEntityArray[i]->ResolveCollision(m_mEntityArray[j]);
 			}
+
+			//Check if puck is in goal
+			if (m_mEntityArray[i]->GetUniqueID() == "Puck" && m_mEntityArray[i]->inGoal())
+			{
+				
+				RemoveEntity(i);
+			}
 		}
 		//Update each entity
 		m_mEntityArray[i]->Update();
