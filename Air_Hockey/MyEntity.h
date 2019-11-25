@@ -286,6 +286,12 @@ public:
 	*/
 	void Bounce(MyEntity* bounced);
 
+	/*
+	USAGE: check if the entity is within the bounds of the goal
+	OUTPUT: true if in goal, false if not
+	*/
+	bool inGoal(void);
+
 private:
 	/*
 	Usage: Deallocates member fields

@@ -73,7 +73,7 @@ void Application::ProcessKeyPressed(sf::Event a_event)
 	{
 	default: break;
 	case sf::Keyboard::Space:
-		
+		addPuck();
 		break;
 	case sf::Keyboard::LShift:
 	case sf::Keyboard::RShift:
@@ -410,10 +410,13 @@ void Application::MouseToWorld(MyEntity* myObj, MyEntity* castTo) {
 	//using ray, find where it collides with a rigidbody in the world
 	if (castTo->GetRigidBody()->IsColliding(rayStartEnd.first, rayStartEnd.second, distance)) {
 		vector3 targetPosition = rayStartEnd.second * distance;
-		targetPosition.z += 15.0f;//change this to reflect the rotation of the camera
+		
+
 		targetPosition.y = .5f;
 
 		vector3 currentPosition = myObj->GetPosition();
+		currentPosition.z -=15.0f;
+		//currentPosition.x -=6.0f;
 		vector3 displacement =  targetPosition - currentPosition;
 		
 		

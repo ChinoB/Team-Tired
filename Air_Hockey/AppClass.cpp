@@ -11,7 +11,7 @@ void Application::InitVariables(void)
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
 
-	//create the bouncer
+	//create the paddle
 	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Paddle_Revised_HongJ.obj", "Paddle");
 	m_pEntityMngr->UsePhysicsSolver(true, -1);
 	m_pEntityMngr->GetEntity(-1)->SetMass(1.0f);
@@ -64,15 +64,6 @@ void Application::InitVariables(void)
 		m_pEntityMngr->GetEntity(-1)->SetTag("Wall");
 	}
 
-	// create the puck
-	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Puck_Revised_HongJ.obj", "Puck");
-	m_pEntityMngr->UsePhysicsSolver(true, -1);
-	m_pEntityMngr->GetEntity(-1)->SetMass(1.0f);
-	v3Position = vector3(2.0f, 1.0f, 0.0f);
-	m4Position = glm::translate(v3Position);
-	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
-	m_pEntityMngr->GetEntity(-1)->SetTag("Puck");
-
 	//create the bumper
 	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Bouncer_Revised_HongJ.obj", "Bumper");
 	m_pEntityMngr->UsePhysicsSolver();
@@ -82,7 +73,9 @@ void Application::InitVariables(void)
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.33f)));
 	m_pEntityMngr->GetEntity(-1)->SetTag("Bumper");
 	
-	
+	// create the puck
+	addPuck();
+
 	m_uOctantLevels = 0;
 	m_pRoot = new MyOctant(m_uOctantLevels, 5);
 	m_pEntityMngr->Update();
@@ -99,27 +92,34 @@ void Application::Update(void)
 	//The game has fixed camera so We don't need to call CameraRotation();
 	//CameraRotation(); //-- disabled to prevent user from rotating camera
 	
-	//update the position of the player's bouncer according to the position of the mouse
+	//update the position of the player's paddle according to the position of the mouse
 	MouseToWorld(m_pEntityMngr->GetEntity(0), m_pEntityMngr->GetEntity(1)); 
 
 	//check if the puck is out of bounds of the board
 	vector3 maxTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMaxGlobal();
 	vector3 minTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMinGlobal();
-	vector3 puckPosition = m_pEntityMngr->GetEntity(6)->GetRigidBody()->GetCenterGlobal();
+	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
+	{
+		if (m_pEntityMngr->GetEntity(i)->GetTag() == "Puck")
+		{
+			vector3 puckPosition = m_pEntityMngr->GetEntity(i)->GetRigidBody()->GetCenterGlobal();
 
-	//place puck back in table x
-	if (maxTable.x < puckPosition.x)
-		puckPosition.x -=  .50f;
-	if (minTable.x > puckPosition.x)
-		puckPosition.x += .50f;
+			//place puck back in table x
+			if (maxTable.x < puckPosition.x)
+				puckPosition.x -= .50f;
+			if (minTable.x > puckPosition.x)
+				puckPosition.x += .50f;
 
-	//place puck back on table z
-	if (maxTable.z < puckPosition.z)
-		puckPosition.z -= .50f;
-	if (minTable.z > puckPosition.z)
-		puckPosition.z += .50f;
+			//place puck back on table z
+			if (maxTable.z < puckPosition.z)
+				puckPosition.z -= .50f;
+			if (minTable.z > puckPosition.z)
+				puckPosition.z += .50f;
 
-	m_pEntityMngr->GetEntity(6)->SetPosition(puckPosition);
+			m_pEntityMngr->GetEntity(i)->SetPosition(puckPosition);
+		}
+	}
+	
 	//Update Entity Manager
 	m_pEntityMngr->Update();
 

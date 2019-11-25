@@ -183,11 +183,18 @@ void Simplex::MyEntityManager::Update(void)
 			{
 
 				//If something collides with the bumper, have the object bounce
-				if (m_mEntityArray[i]->GetUniqueID() == "Bumper")
+				if (m_mEntityArray[i]->GetTag() == "Bumper")
 				{
 					m_mEntityArray[i]->Bounce(m_mEntityArray[j]);
 				}
 				m_mEntityArray[i]->ResolveCollision(m_mEntityArray[j]);
+			}
+
+			//Check if puck is in goal
+			if (m_mEntityArray[i]->GetTag() == "Puck" && m_mEntityArray[i]->inGoal())
+			{
+				
+				RemoveEntity(i);
 			}
 		}
 		//Update each entity
