@@ -192,16 +192,20 @@ void Simplex::MyEntityManager::Update(void)
 				}
 				m_mEntityArray[i]->ResolveCollision(m_mEntityArray[j]);
 			}
-
-			//Check if puck is in goal
-			if (m_mEntityArray[i]->GetTag() == "Puck" && m_mEntityArray[i]->inGoal())
-			{
-				m_uScore++;
-				RemoveEntity(i);
-			}
 		}
+
 		//Update each entity
 		m_mEntityArray[i]->Update();
+	}
+
+	//check for goals
+	for (uint i = 0; i < m_uEntityCount; i++)
+	{
+		if (m_mEntityArray[i]->GetTag() == "Puck" && m_mEntityArray[i]->inGoal())
+		{
+			m_uScore++;
+			RemoveEntity(i);
+		}
 	}
 }
 void Simplex::MyEntityManager::AddEntity(String a_sFileName, String a_sUniqueID)
