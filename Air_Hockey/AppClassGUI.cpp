@@ -11,11 +11,11 @@ void Application::DrawGUI(void)
 	}
 
 //m_pMeshMngr->Print("                        ");
-	m_pMeshMngr->Print("Player 1 Score: ");//Add a line on top
-	m_pMeshMngr->PrintLine(std::to_string(m_player1Score), C_YELLOW);
+	m_pMeshMngr->Print("Player Score: ");//Add a line on top
+	m_pMeshMngr->PrintLine(std::to_string(m_pEntityMngr->GetScore()), C_YELLOW);
 
-	m_pMeshMngr->Print("Player 2 Score: ");//Add a line on top
-	m_pMeshMngr->PrintLine(std::to_string(m_player2Score), C_YELLOW);
+	//m_pMeshMngr->Print("Player 2 Score: ");//Add a line on top
+	//m_pMeshMngr->PrintLine(std::to_string(m_player2Score), C_YELLOW);
 
 	//m_pMeshMngr->Print("						");
 	m_pMeshMngr->Print("FPS:");

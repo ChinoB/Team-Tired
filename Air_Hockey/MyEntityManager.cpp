@@ -17,6 +17,10 @@ void Simplex::MyEntityManager::Release(void)
 	m_uEntityCount = 0;
 	m_mEntityArray = nullptr;
 }
+uint Simplex::MyEntityManager::GetScore()
+{
+	return m_uScore;
+}
 Simplex::MyEntityManager* Simplex::MyEntityManager::GetInstance()
 {
 	if(m_pInstance == nullptr)
@@ -181,7 +185,6 @@ void Simplex::MyEntityManager::Update(void)
 			//if objects are colliding resolve the collision
 			if (m_mEntityArray[i]->IsColliding(m_mEntityArray[j]))
 			{
-
 				//If something collides with the bumper, have the object bounce
 				if (m_mEntityArray[i]->GetTag() == "Bumper")
 				{
@@ -193,7 +196,7 @@ void Simplex::MyEntityManager::Update(void)
 			//Check if puck is in goal
 			if (m_mEntityArray[i]->GetTag() == "Puck" && m_mEntityArray[i]->inGoal())
 			{
-				
+				m_uScore++;
 				RemoveEntity(i);
 			}
 		}

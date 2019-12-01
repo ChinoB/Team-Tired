@@ -333,8 +333,9 @@ void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
 }
 bool Simplex::MyEntity::inGoal(void)
 {
-
-		return false;
+	if (GetPosition().x < -5.0f)
+		return true;
+	return false;
 }
 void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 {
