@@ -424,6 +424,7 @@ void Application::MouseToWorld(MyEntity* myObj, MyEntity* castTo) {
 		myObj->SetPosition(vector3(targetPosition.x, targetPosition.y, targetPosition.z + 15.0f));
 
 		//keep paddle in bounds
+		//Corners
 		if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
 			myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, maxTable.z - 2.5f));
 		if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
@@ -433,20 +434,13 @@ void Application::MouseToWorld(MyEntity* myObj, MyEntity* castTo) {
 		if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
 			myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, maxTable.z - 2.5f));
 
-		if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
-			std::cout << "x > z >" << std::endl;
-		if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
-			std::cout << "x > z <" << std::endl;
-		if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
-			std::cout << "x < z <" << std::endl;
-		if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
-			std::cout << "x < z >" << std::endl;
-
+		//Left/Right
 		if (myObj->GetPosition().x > maxTable.x - 2.5f)
 			myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, myObj->GetPosition().z));
 		if(myObj->GetPosition().x < minTable.x + 2.5f)
 			myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, myObj->GetPosition().z));
 
+		//Front/Back
 		if (myObj->GetPosition().z > maxTable.z - 2.5f)
 			myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, maxTable.z - 2.5f));
 		if (myObj->GetPosition().z < minTable.z + 2.5f)
