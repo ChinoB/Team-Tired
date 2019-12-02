@@ -408,11 +408,11 @@ void Application::MouseToWorld(MyEntity* myObj, MyEntity* castTo) {
 	std::pair<vector3, vector3> rayStartEnd = m_pCameraMngr->GetClickAndDirectionOnWorldSpace(m_v3Mouse.x, m_v3Mouse.y, -1);
 	float distance = 0.0f;
 	//using ray, find where it collides with a rigidbody in the world
-	if (castTo->GetRigidBody()->IsColliding(rayStartEnd.first, rayStartEnd.second, distance)) {
+	castTo->GetRigidBody()->IsColliding(rayStartEnd.first, rayStartEnd.second, distance);
 		vector3 targetPosition = rayStartEnd.second * distance;
 		
 
-		targetPosition.y = .5f;
+		targetPosition.y = 0.5f;
 
 		vector3 currentPosition = myObj->GetPosition();
 		currentPosition.z -= 15.0f;
@@ -424,23 +424,35 @@ void Application::MouseToWorld(MyEntity* myObj, MyEntity* castTo) {
 		myObj->SetPosition(vector3(targetPosition.x, targetPosition.y, targetPosition.z + 15.0f));
 
 		//keep paddle in bounds
-		if (myObj->GetPosition().x > maxTable.x)
-			myObj->SetPosition(vector3(maxTable.x, myObj->GetPosition().y, myObj->GetPosition().z));
-		else if(myObj->GetPosition().x < minTable.x)
-			myObj->SetPosition(vector3(minTable.x, myObj->GetPosition().y, myObj->GetPosition().z));
+		if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
+			myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, maxTable.z - 2.5f));
+		if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
+			myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, minTable.z + 2.5f));
+		if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
+			myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, minTable.z + 2.5f));
+		if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
+			myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, maxTable.z - 2.5f));
 
-		if (myObj->GetPosition().z > maxTable.z)
-			myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, maxTable.z));
-		else if (myObj->GetPosition().z < minTable.z)
-			myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, minTable.z));
-	}
-	else {
-		////the mouse is out of bounds of the viable area, stop the player's bumper
-		//myObj->SetVelocity(vector3(0.0f, 0.0f, 0.0f));
-		//vector3 tempPos = myObj->GetPosition();
-		//tempPos.y = .465f;
-		//myObj->SetPosition(tempPos);
-	}
+		if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
+			std::cout << "x > z >" << std::endl;
+		if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
+			std::cout << "x > z <" << std::endl;
+		if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
+			std::cout << "x < z <" << std::endl;
+		if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
+			std::cout << "x < z >" << std::endl;
+
+		if (myObj->GetPosition().x > maxTable.x - 2.5f)
+			myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, myObj->GetPosition().z));
+		if(myObj->GetPosition().x < minTable.x + 2.5f)
+			myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, myObj->GetPosition().z));
+
+		if (myObj->GetPosition().z > maxTable.z - 2.5f)
+			myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, maxTable.z - 2.5f));
+		if (myObj->GetPosition().z < minTable.z + 2.5f)
+			myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, minTable.z + 2.5f));
+
+
 }
 //Keyboard
 void Application::ProcessKeyboard(void)

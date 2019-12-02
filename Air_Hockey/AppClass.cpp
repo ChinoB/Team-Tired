@@ -23,6 +23,14 @@ void Application::InitVariables(void)
 	//create the various pieces of the table
 	{
 		//create the Pieces
+		m_pEntityMngr->AddEntity("AirHockey\\table_base_r.obj", "MousePlane");
+		m_pEntityMngr->UsePhysicsSolver(true, -1);
+		m_pEntityMngr->GetEntity(-1)->SetMass(1000.0f);
+		v3Position = vector3(0.0f, -0.0f, 0.0f);
+		m4Position = glm::translate(v3Position);
+		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(50.0f, 1.0f, 50.0f)));
+		m_pEntityMngr->GetEntity(-1)->SetTag("MousePlane");
+		//create the Pieces
 		m_pEntityMngr->AddEntity("AirHockey\\table_base_r.obj", "TableBase");
 		m_pEntityMngr->UsePhysicsSolver(true, -1);
 		m_pEntityMngr->GetEntity(-1)->SetMass(1000.0f);
@@ -76,8 +84,8 @@ void Application::InitVariables(void)
 	// create the puck
 	addPuck();
 
-	maxTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMaxGlobal();
-	minTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMinGlobal();
+	maxTable = m_pEntityMngr->GetEntity(2)->GetRigidBody()->GetMaxGlobal();// -2.5f;
+	minTable = m_pEntityMngr->GetEntity(2)->GetRigidBody()->GetMinGlobal();// +2.5f;
 
 	m_uOctantLevels = 0;
 	m_pRoot = new MyOctant(m_uOctantLevels, 5);
