@@ -15,7 +15,7 @@ void Application::InitVariables(void)
 	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Paddle_Revised_HongJ.obj", "Paddle");
 	m_pEntityMngr->UsePhysicsSolver(true, -1);
 	m_pEntityMngr->GetEntity(-1)->SetMass(1.0f);
-	vector3 v3Position = vector3(0.0f, 2.75f, 0.0f);
+	vector3 v3Position = vector3(0.0f, 2.75f, 2.0f);
 	matrix4 m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.65f)));
 	m_pEntityMngr->GetEntity(-1)->SetTag("Paddle");
@@ -106,15 +106,15 @@ void Application::Update(void)
 
 			//place puck back in table x
 			if (maxTable.x < puckPosition.x)
-				puckPosition.x -= .50f;
+				puckPosition.x = maxTable.x;
 			if (minTable.x > puckPosition.x)
-				puckPosition.x += .50f;
+				puckPosition.x = minTable.x;
 
 			//place puck back on table z
 			if (maxTable.z < puckPosition.z)
-				puckPosition.z -= .50f;
+				puckPosition.z = maxTable.z;
 			if (minTable.z > puckPosition.z)
-				puckPosition.z += .50f;
+				puckPosition.z = minTable.z;
 
 			m_pEntityMngr->GetEntity(i)->SetPosition(puckPosition);
 		}
