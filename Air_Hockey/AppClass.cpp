@@ -76,6 +76,9 @@ void Application::InitVariables(void)
 	// create the puck
 	addPuck();
 
+	maxTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMaxGlobal();
+	minTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMinGlobal();
+
 	m_uOctantLevels = 0;
 	m_pRoot = new MyOctant(m_uOctantLevels, 5);
 	m_pEntityMngr->Update();
@@ -96,8 +99,6 @@ void Application::Update(void)
 	MouseToWorld(m_pEntityMngr->GetEntity(0), m_pEntityMngr->GetEntity(1)); 
 
 	//check if the puck is out of bounds of the board
-	vector3 maxTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMaxGlobal();
-	vector3 minTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMinGlobal();
 	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
 	{
 		if (m_pEntityMngr->GetEntity(i)->GetTag() == "Puck")
@@ -109,7 +110,7 @@ void Application::Update(void)
 				puckPosition.x = maxTable.x;
 			if (minTable.x > puckPosition.x)
 				puckPosition.x = minTable.x;
-
+			
 			//place puck back on table z
 			if (maxTable.z < puckPosition.z)
 				puckPosition.z = maxTable.z;

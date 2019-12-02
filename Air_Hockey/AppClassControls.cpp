@@ -415,20 +415,31 @@ void Application::MouseToWorld(MyEntity* myObj, MyEntity* castTo) {
 		targetPosition.y = .5f;
 
 		vector3 currentPosition = myObj->GetPosition();
-		currentPosition.z -=15.0f;
+		currentPosition.z -= 15.0f;
 		//currentPosition.x -=6.0f;
 		vector3 displacement =  targetPosition - currentPosition;
 		
-		
+
 		myObj->ApplyForce(displacement);
-		
+		myObj->SetPosition(vector3(targetPosition.x, targetPosition.y, targetPosition.z + 15.0f));
+
+		//keep paddle in bounds
+		if (myObj->GetPosition().x > maxTable.x)
+			myObj->SetPosition(vector3(maxTable.x, myObj->GetPosition().y, myObj->GetPosition().z));
+		else if(myObj->GetPosition().x < minTable.x)
+			myObj->SetPosition(vector3(minTable.x, myObj->GetPosition().y, myObj->GetPosition().z));
+
+		if (myObj->GetPosition().z > maxTable.z)
+			myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, maxTable.z));
+		else if (myObj->GetPosition().z < minTable.z)
+			myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, minTable.z));
 	}
 	else {
-		//the mouse is out of bounds of the viable area, stop the player's bumper
-		myObj->SetVelocity(vector3(0.0f, 0.0f, 0.0f));
-		vector3 tempPos = myObj->GetPosition();
-		tempPos.y = .465f;
-		myObj->SetPosition(tempPos);
+		////the mouse is out of bounds of the viable area, stop the player's bumper
+		//myObj->SetVelocity(vector3(0.0f, 0.0f, 0.0f));
+		//vector3 tempPos = myObj->GetPosition();
+		//tempPos.y = .465f;
+		//myObj->SetPosition(tempPos);
 	}
 }
 //Keyboard
