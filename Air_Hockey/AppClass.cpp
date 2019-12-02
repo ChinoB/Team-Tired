@@ -132,10 +132,12 @@ void Application::Update(void)
 	//Update Entity Manager
 	m_pEntityMngr->Update();
 
-	//Add objects to render list
-
-	m_pEntityMngr->AddEntityToRenderList(-1, true);//draw everything
-	
+	//Render everything except the MousePlane
+	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
+	{
+		if(i != 1)
+			m_pEntityMngr->AddEntityToRenderList(i, true);//draw everything
+	}
 }
 void Application::Display(void)
 {
