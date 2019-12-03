@@ -1,4 +1,5 @@
 #include "AppClass.h"
+#include "AppClass.h"
 using namespace Simplex;
 void Application::InitVariables(void)
 {
@@ -128,7 +129,17 @@ void Application::Update(void)
 			m_pEntityMngr->GetEntity(i)->SetPosition(puckPosition);
 		}
 	}
-	
+
+	//Add puck if there are none
+	bool thereIsAPuck = false;
+	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
+	{
+		if (m_pEntityMngr->GetEntity(i)->GetTag() == "Puck")
+			thereIsAPuck = true;;
+	}
+	if (!thereIsAPuck)
+		addPuck();
+
 	//Update Entity Manager
 	m_pEntityMngr->Update();
 
