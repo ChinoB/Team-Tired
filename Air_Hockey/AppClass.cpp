@@ -75,7 +75,16 @@ void Application::InitVariables(void)
 	//create the bumper
 	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Bouncer_Revised_HongJ.obj", "Bumper");
 	m_pEntityMngr->UsePhysicsSolver();
-	v3Position = vector3(-1.0f, .4650f, -5.0f);
+	v3Position = vector3(-2.0f, .4650f, -2.0f);
+	m_pEntityMngr->GetEntity(-1)->SetMass(100.0f);
+	m4Position = glm::translate(v3Position);
+	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.33f)));
+	m_pEntityMngr->GetEntity(-1)->SetTag("Bumper");
+
+	//create the bumper
+	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Bouncer_Revised_HongJ.obj", "Bumper");
+	m_pEntityMngr->UsePhysicsSolver();
+	v3Position = vector3(2.0f, .4650f, -2.0f);
 	m_pEntityMngr->GetEntity(-1)->SetMass(100.0f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.33f)));

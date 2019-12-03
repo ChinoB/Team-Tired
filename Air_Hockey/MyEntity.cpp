@@ -345,6 +345,6 @@ void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 //Note: not perfect, need to think in more detail later
 void Simplex::MyEntity::Bounce(MyEntity* bounced)
 {
-	bounced->SetVelocity(vector3(bounced->GetVelocity().x * -1, bounced->GetVelocity().y * -1, bounced->GetVelocity().z));
+	bounced->SetVelocity(vector3(bounced->GetVelocity().x * -1, bounced->GetVelocity().y * -1, bounced->GetVelocity().z*-1));
 	bounced->ApplyForce(bounced->GetVelocity()*bounced->GetMass());
 }
