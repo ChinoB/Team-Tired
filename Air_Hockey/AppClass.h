@@ -49,6 +49,11 @@ private:
 
 	float m_fMovementSpeed = 0.1f; //how fast the camera will move
 
+	float m_fDelay = 3.0f; //time delay until next puck is spawned
+	float m_fCurrent = 0.0f; //time since last puck was spawned
+
+	uint m_uClock = 0;//the clock for the system
+
 	vector3 m_v3Mouse = vector3(); //position of the mouse in the window
 	bool m_bFPC = false;// First Person Camera flag
 	bool m_bArcBall = false;// ArcBall flag

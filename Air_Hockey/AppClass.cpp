@@ -91,6 +91,8 @@ void Application::InitVariables(void)
 	m_pRoot = new MyOctant(m_uOctantLevels, 5);
 	m_pEntityMngr->Update();
 
+	//create clock for delta time
+	m_uClock = m_pSystem->GenClock();
 }
 void Application::Update(void)
 {
@@ -103,6 +105,16 @@ void Application::Update(void)
 	//The game has fixed camera so We don't need to call CameraRotation();
 	//CameraRotation(); //-- disabled to prevent user from rotating camera
 	
+
+	//add new puck every X seconds
+	if (m_fCurrent >= m_fDelay) {
+		addPuck();
+		m_fCurrent = 0;
+	}
+	else {
+		m_fCurrent += m_pSystem->GetDeltaTime(m_uClock);
+	}
+
 	//update the position of the player's paddle according to the position of the mouse
 	MouseToWorld(m_pEntityMngr->GetEntity(0), m_pEntityMngr->GetEntity(1)); 
 

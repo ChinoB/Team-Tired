@@ -14,8 +14,9 @@ void Application::DrawGUI(void)
 	m_pMeshMngr->Print("Player Score: ");//Add a line on top
 	m_pMeshMngr->PrintLine(std::to_string(m_pEntityMngr->GetScore()), C_YELLOW);
 
-	//m_pMeshMngr->Print("Player 2 Score: ");//Add a line on top
-	//m_pMeshMngr->PrintLine(std::to_string(m_player2Score), C_YELLOW);
+	m_pMeshMngr->Print("Next puck in: ");//Add a line on top
+	m_pMeshMngr->PrintLine(std::to_string(3.0f - (m_fCurrent)), C_YELLOW);
+	m_pMeshMngr->Print(" seconds");
 
 	//m_pMeshMngr->Print("						");
 	m_pMeshMngr->Print("FPS:");
