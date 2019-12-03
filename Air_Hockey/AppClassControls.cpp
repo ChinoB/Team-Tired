@@ -408,28 +408,45 @@ void Application::MouseToWorld(MyEntity* myObj, MyEntity* castTo) {
 	std::pair<vector3, vector3> rayStartEnd = m_pCameraMngr->GetClickAndDirectionOnWorldSpace(m_v3Mouse.x, m_v3Mouse.y, -1);
 	float distance = 0.0f;
 	//using ray, find where it collides with a rigidbody in the world
-	if (castTo->GetRigidBody()->IsColliding(rayStartEnd.first, rayStartEnd.second, distance)) {
+	castTo->GetRigidBody()->IsColliding(rayStartEnd.first, rayStartEnd.second, distance);
 		vector3 targetPosition = rayStartEnd.second * distance;
 		
 
-		targetPosition.y = .5f;
+		targetPosition.y = 0.5f;
 
 		vector3 currentPosition = myObj->GetPosition();
-		currentPosition.z -=15.0f;
+		currentPosition.z -= 15.0f;
 		//currentPosition.x -=6.0f;
 		vector3 displacement =  targetPosition - currentPosition;
 		
-		
+
 		myObj->ApplyForce(displacement);
-		
-	}
-	else {
-		//the mouse is out of bounds of the viable area, stop the player's bumper
-		myObj->SetVelocity(vector3(0.0f, 0.0f, 0.0f));
-		vector3 tempPos = myObj->GetPosition();
-		tempPos.y = .465f;
-		myObj->SetPosition(tempPos);
-	}
+		myObj->SetPosition(vector3(targetPosition.x, targetPosition.y, targetPosition.z + 15.0f));
+
+		//keep paddle in bounds
+		//Corners
+		if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
+			myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, maxTable.z - 2.5f));
+		if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
+			myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, minTable.z + 2.5f));
+		if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
+			myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, minTable.z + 2.5f));
+		if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
+			myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, maxTable.z - 2.5f));
+
+		//Left/Right
+		if (myObj->GetPosition().x > maxTable.x - 2.5f)
+			myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, myObj->GetPosition().z));
+		if(myObj->GetPosition().x < minTable.x + 2.5f)
+			myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, myObj->GetPosition().z));
+
+		//Front/Back
+		if (myObj->GetPosition().z > maxTable.z - 2.5f)
+			myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, maxTable.z - 2.5f));
+		if (myObj->GetPosition().z < minTable.z + 2.5f)
+			myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, minTable.z + 2.5f));
+
+
 }
 //Keyboard
 void Application::ProcessKeyboard(void)

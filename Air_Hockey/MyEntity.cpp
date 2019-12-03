@@ -333,7 +333,9 @@ void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
 }
 bool Simplex::MyEntity::inGoal(void)
 {
-
+	if (GetPosition().z < -5.1 && (GetPosition().x > -1 && GetPosition().x < 1))
+		return true;
+	else
 		return false;
 }
 void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
@@ -343,6 +345,6 @@ void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 //Note: not perfect, need to think in more detail later
 void Simplex::MyEntity::Bounce(MyEntity* bounced)
 {
-	//bounced->SetVelocity(vector3(bounced->GetVelocity().x * -1, bounced->GetVelocity().y * -1, bounced->GetVelocity().z));
-	bounced->ApplyForce(bounced->GetVelocity()*bounced->GetMass()*-1);
+	bounced->SetVelocity(vector3(bounced->GetVelocity().x * -1, bounced->GetVelocity().y * -1, bounced->GetVelocity().z));
+	bounced->ApplyForce(bounced->GetVelocity()*bounced->GetMass());
 }

@@ -15,13 +15,21 @@ void Application::InitVariables(void)
 	m_pEntityMngr->AddEntity("AirHockey\\DSA2_AirHockey3D_Paddle_Revised_HongJ.obj", "Paddle");
 	m_pEntityMngr->UsePhysicsSolver(true, -1);
 	m_pEntityMngr->GetEntity(-1)->SetMass(1.0f);
-	vector3 v3Position = vector3(0.0f, 2.75f, 0.0f);
+	vector3 v3Position = vector3(0.0f, 2.75f, 2.0f);
 	matrix4 m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.65f)));
 	m_pEntityMngr->GetEntity(-1)->SetTag("Paddle");
 
 	//create the various pieces of the table
 	{
+		//create the Pieces
+		m_pEntityMngr->AddEntity("AirHockey\\table_base_r.obj", "MousePlane");
+		m_pEntityMngr->UsePhysicsSolver(true, -1);
+		m_pEntityMngr->GetEntity(-1)->SetMass(1000.0f);
+		v3Position = vector3(0.0f, -0.0f, 0.0f);
+		m4Position = glm::translate(v3Position);
+		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(50.0f, 1.0f, 50.0f)));
+		m_pEntityMngr->GetEntity(-1)->SetTag("MousePlane");
 		//create the Pieces
 		m_pEntityMngr->AddEntity("AirHockey\\table_base_r.obj", "TableBase");
 		m_pEntityMngr->UsePhysicsSolver(true, -1);
@@ -76,6 +84,9 @@ void Application::InitVariables(void)
 	// create the puck
 	addPuck();
 
+	maxTable = m_pEntityMngr->GetEntity(2)->GetRigidBody()->GetMaxGlobal();// -2.5f;
+	minTable = m_pEntityMngr->GetEntity(2)->GetRigidBody()->GetMinGlobal();// +2.5f;
+
 	m_uOctantLevels = 0;
 	m_pRoot = new MyOctant(m_uOctantLevels, 5);
 	m_pEntityMngr->Update();
@@ -96,8 +107,6 @@ void Application::Update(void)
 	MouseToWorld(m_pEntityMngr->GetEntity(0), m_pEntityMngr->GetEntity(1)); 
 
 	//check if the puck is out of bounds of the board
-	vector3 maxTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMaxGlobal();
-	vector3 minTable = m_pEntityMngr->GetEntity(1)->GetRigidBody()->GetMinGlobal();
 	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
 	{
 		if (m_pEntityMngr->GetEntity(i)->GetTag() == "Puck")
@@ -106,15 +115,15 @@ void Application::Update(void)
 
 			//place puck back in table x
 			if (maxTable.x < puckPosition.x)
-				puckPosition.x -= .50f;
+				puckPosition.x = maxTable.x;
 			if (minTable.x > puckPosition.x)
-				puckPosition.x += .50f;
-
+				puckPosition.x = minTable.x;
+			
 			//place puck back on table z
 			if (maxTable.z < puckPosition.z)
-				puckPosition.z -= .50f;
+				puckPosition.z = maxTable.z;
 			if (minTable.z > puckPosition.z)
-				puckPosition.z += .50f;
+				puckPosition.z = minTable.z;
 
 			m_pEntityMngr->GetEntity(i)->SetPosition(puckPosition);
 		}
@@ -123,10 +132,12 @@ void Application::Update(void)
 	//Update Entity Manager
 	m_pEntityMngr->Update();
 
-	//Add objects to render list
-
-	m_pEntityMngr->AddEntityToRenderList(-1, true);//draw everything
-	
+	//Render everything except the MousePlane
+	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
+	{
+		if(i != 1)
+			m_pEntityMngr->AddEntityToRenderList(i, true);//draw everything
+	}
 }
 void Application::Display(void)
 {

@@ -15,9 +15,16 @@ class MyEntityManager
 {
 	typedef MyEntity* PEntity; //MyEntity Pointer
 	uint m_uEntityCount = 0; //number of elements in the list
+	uint m_uScore = 0; //Player score
 	PEntity* m_mEntityArray = nullptr; //array of MyEntity pointers
 	static MyEntityManager* m_pInstance; // Singleton pointer
 public:
+	/*
+	Usage: Gets the current score
+	Arguments: ---
+	Output: Score
+	*/
+	uint GetScore();
 	/*
 	Usage: Gets the singleton pointer
 	Arguments: ---
