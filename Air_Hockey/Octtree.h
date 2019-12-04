@@ -21,7 +21,7 @@ namespace Simplex
 		uint m_uLevel = 0; //Will store the current level of the octant
 		uint m_uChildren = 0;// Number of children on the octant (either 0 or 8)
 
-		float m_fSize = 0.0f; //Size of the octant
+		vector3 m_v3Size = ZERO_V3; //Size of the octant
 
 		MeshManager* m_pMeshMngr = nullptr;//Mesh Manager singleton
 		MyEntityManager* m_pEntityMngr = nullptr; //Entity Manager Singleton
@@ -46,7 +46,7 @@ namespace Simplex
 		- uint nIdealEntityCount = 5 -> Sets the ideal level of objects per octant
 		OUTPUT: class object
 		*/
-		MyOctant(uint a_nMaxLevel = 2, uint a_nIdealEntityCount = 5);
+		MyOctant(uint a_nMaxLevel, uint a_nIdealEntityCount, vector3 min, vector3 max);
 		/*
 		USAGE: Constructor
 		ARGUMENTS:
@@ -54,7 +54,7 @@ namespace Simplex
 		- float a_fSize -> size of each side of the octant volume
 		OUTPUT: class object
 		*/
-		MyOctant(vector3 a_v3Center, float a_fSize);
+		MyOctant(vector3 a_v3Center, vector3 a_fSize);
 		/*
 		USAGE: Copy Constructor
 		ARGUMENTS: class object to copy
@@ -85,7 +85,7 @@ namespace Simplex
 		ARGUMENTS: ---
 		OUTPUT: size of octant
 		*/
-		float GetSize(void);
+		vector3 GetSize(void);
 		/*
 		USAGE: Gets the center of the octant in global scape
 		ARGUMENTS: ---

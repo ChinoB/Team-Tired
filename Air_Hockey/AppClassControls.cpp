@@ -19,7 +19,7 @@ void Application::ProcessMousePressed(sf::Event a_event)
 	default: break;
 	case sf::Mouse::Button::Left:
 		gui.m_bMousePressed[0] = true;
-		
+
 		break;
 	case sf::Mouse::Button::Middle:
 		gui.m_bMousePressed[1] = true;
@@ -112,20 +112,20 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 		bFPSControl = !bFPSControl;
 		m_pCameraMngr->SetFPS(bFPSControl);
 		break;
-	/*case sf::Keyboard::PageUp:
-		++m_uOctantID;
+		/*case sf::Keyboard::PageUp:
+			++m_uOctantID;
 
-		if (m_uOctantID >= m_pRoot->GetOctantCount())
-			m_uOctantID = -1;
+			if (m_uOctantID >= m_pRoot->GetOctantCount())
+				m_uOctantID = -1;
 
-		break;
-	case sf::Keyboard::PageDown:
-		--m_uOctantID;
+			break;
+		case sf::Keyboard::PageDown:
+			--m_uOctantID;
 
-		if (m_uOctantID >= m_pRoot->GetOctantCount())
-			m_uOctantID = -1;
+			if (m_uOctantID >= m_pRoot->GetOctantCount())
+				m_uOctantID = -1;
 
-		break;*/
+			break;*/
 	case sf::Keyboard::Add:
 		if (m_uOctantLevels < 4)
 		{
@@ -133,7 +133,7 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 			++m_uOctantLevels;
 
 			SafeDelete(m_pRoot);
-			m_pRoot = new MyOctant(m_uOctantLevels, 5);
+			m_pRoot = new MyOctant(m_uOctantLevels, 5, minTable, maxTable);
 
 		}
 		break;
@@ -144,7 +144,7 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 			--m_uOctantLevels;
 
 			SafeDelete(m_pRoot);
-			m_pRoot = new MyOctant(m_uOctantLevels, 5);
+			m_pRoot = new MyOctant(m_uOctantLevels, 5, minTable, maxTable);
 
 		}
 		break;
@@ -307,7 +307,7 @@ void Application::ProcessJoystickMoved(sf::Event a_event)
 Continuous update (once per frame) for discreet input use
 process events.
 */
-//Mouse
+//mouse
 void Application::ArcBall(float a_fSensitivity)
 {
 	//If the arcball is not enabled return
@@ -409,42 +409,42 @@ void Application::MouseToWorld(MyEntity* myObj, MyEntity* castTo) {
 	float distance = 0.0f;
 	//using ray, find where it collides with a rigidbody in the world
 	castTo->GetRigidBody()->IsColliding(rayStartEnd.first, rayStartEnd.second, distance);
-		vector3 targetPosition = rayStartEnd.second * distance;
-		
+	vector3 targetPosition = rayStartEnd.second * distance;
 
-		targetPosition.y = 0.5f;
 
-		vector3 currentPosition = myObj->GetPosition();
-		currentPosition.z -= 15.0f;
-		//currentPosition.x -=6.0f;
-		vector3 displacement =  targetPosition - currentPosition;
-		
+	targetPosition.y = 0.5f;
 
-		myObj->ApplyForce(displacement);
-		myObj->SetPosition(vector3(targetPosition.x, targetPosition.y, targetPosition.z + 15.0f));
+	vector3 currentPosition = myObj->GetPosition();
+	currentPosition.z -= 15.0f;
+	//currentPosition.x -=6.0f;
+	vector3 displacement = targetPosition - currentPosition;
 
-		//keep paddle in bounds
-		//Corners
-		if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
-			myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, maxTable.z - 2.5f));
-		if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
-			myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, minTable.z + 2.5f));
-		if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
-			myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, minTable.z + 2.5f));
-		if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
-			myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, maxTable.z - 2.5f));
 
-		//Left/Right
-		if (myObj->GetPosition().x > maxTable.x - 2.5f)
-			myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, myObj->GetPosition().z));
-		if(myObj->GetPosition().x < minTable.x + 2.5f)
-			myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, myObj->GetPosition().z));
+	myObj->ApplyForce(displacement);
+	myObj->SetPosition(vector3(targetPosition.x, targetPosition.y, targetPosition.z + 15.0f));
 
-		//Front/Back
-		if (myObj->GetPosition().z > maxTable.z - 2.5f)
-			myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, maxTable.z - 2.5f));
-		if (myObj->GetPosition().z < minTable.z + 2.5f)
-			myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, minTable.z + 2.5f));
+	//keep paddle in bounds
+	//Corners
+	if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
+		myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, maxTable.z - 2.5f));
+	if (myObj->GetPosition().x > maxTable.x - 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
+		myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, minTable.z + 2.5f));
+	if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z < minTable.z + 2.5f)
+		myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, minTable.z + 2.5f));
+	if (myObj->GetPosition().x < minTable.x + 2.5f && myObj->GetPosition().z > maxTable.z - 2.5f)
+		myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, maxTable.z - 2.5f));
+
+	//Left/Right
+	if (myObj->GetPosition().x > maxTable.x - 2.5f)
+		myObj->SetPosition(vector3(maxTable.x - 2.5f, myObj->GetPosition().y, myObj->GetPosition().z));
+	if (myObj->GetPosition().x < minTable.x + 2.5f)
+		myObj->SetPosition(vector3(minTable.x + 2.5f, myObj->GetPosition().y, myObj->GetPosition().z));
+
+	//Front/Back
+	if (myObj->GetPosition().z > maxTable.z - 2.5f)
+		myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, maxTable.z - 2.5f));
+	if (myObj->GetPosition().z < minTable.z + 2.5f)
+		myObj->SetPosition(vector3(myObj->GetPosition().x, myObj->GetPosition().y, minTable.z + 2.5f));
 
 
 }

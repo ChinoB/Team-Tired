@@ -62,7 +62,9 @@ void Application::DrawGUI(void)
 			ImGui::Text(" PageDw: Decrement Octant display\n");
 			ImGui::Text("Levels in Octree: %d\n", m_uOctantLevels);
 			ImGui::Separator();
-			ImGui::Text("Arrows: Apply force to Steve\n");
+			//ImGui::Text("Arrows: Apply force to Steve\n");
+			//ImGui::Text("Min table: [", minTable.x, ", ", minTable.y, ", ", minTable.z, "]");
+			//ImGui::Text("max table: [", maxTable.x, ", ", maxTable.y, ", ", maxTable.z, "]");
 		}
 		ImGui::End();
 	}

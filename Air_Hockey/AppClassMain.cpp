@@ -52,8 +52,8 @@ void Simplex::Application::addPuck(void)
 	m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(.75f)));
 	m_pEntityMngr->GetEntity(-1)->SetTag("Puck");
 	
-	m_uOctantLevels = 0;
-	m_pRoot = new MyOctant(m_uOctantLevels, 5);
+	//m_uOctantLevels = 0;
+	//m_pRoot = new MyOctant(m_uOctantLevels, 5, minTable, maxTable);
 	m_pEntityMngr->Update();
 }
 
@@ -145,6 +145,7 @@ void Application::Run(void)
 				break;
 			case sf::Event::MouseButtonPressed:
 				ProcessMousePressed(appEvent);
+				printf("hi\n");
 				break;
 			case sf::Event::MouseButtonReleased:
 				ProcessMouseReleased(appEvent);

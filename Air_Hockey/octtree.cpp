@@ -21,7 +21,7 @@ void MyOctant::Init(void)
 	//no children in the beginning 
 	m_uChildren = 0;
 
-	m_fSize = 0.0f;
+	m_v3Size = ZERO_V3;
 
 	//will be used in order to increment/decrement ID when pressing page up or down
 	m_uID = m_uOctantCount;
@@ -52,7 +52,7 @@ void MyOctant::Swap(MyOctant& other)
 
 	swap(m_uChildren, other.m_uChildren);
 
-	swap(m_fSize, other.m_fSize);
+	swap(m_v3Size, other.m_v3Size);
 	swap(m_uID, other.m_uID);
 	swap(m_pRoot, other.m_pRoot);
 	swap(m_lChild, other.m_lChild);
@@ -86,7 +86,7 @@ void MyOctant::Release(void)
 		KillBranches();
 	}
 	m_uChildren = 0;
-	m_fSize = 0.0f;
+	m_v3Size = ZERO_V3;
 	m_EntityList.clear();
 	m_lChild.clear();
 }
@@ -94,7 +94,7 @@ void MyOctant::Release(void)
 //The big three
 
 //parameterized constructor
-MyOctant::MyOctant(uint maxLvl, uint numEntity)
+MyOctant::MyOctant(uint maxLvl, uint numEntity, vector3 min, vector3 max)
 {
 	//initialize the default data
 	Init();
@@ -107,24 +107,25 @@ MyOctant::MyOctant(uint maxLvl, uint numEntity)
 	m_pRoot = this;
 	m_lChild.clear();
 
-	//list of vector3 that will hold all of the minimum and maximum vectors of the Bounding Object in order to know the boundary for the parent 
-	vector<vector3> minMaxList;
+	////list of vector3 that will hold all of the minimum and maximum vectors of the Bounding Object in order to know the boundary for the parent 
+	//vector<vector3> minMaxList;
 
-	uint numObj = m_pEntityMngr->GetEntityCount();
+	//uint numObj = m_pEntityMngr->GetEntityCount();
 
-	//entity and rigidbody will be called for every number of objects
-	for (uint i = 0; i < numObj; i++)
-	{
-		MyEntity* pEntity = m_pEntityMngr->GetEntity(i);
-		MyRigidBody* pRigidBody = pEntity->GetRigidBody();
-		minMaxList.push_back(pRigidBody->GetMinGlobal());
-		minMaxList.push_back(pRigidBody->GetMaxGlobal());
-	}
+	////entity and rigidbody will be called for every number of objects
+	//for (uint i = 0; i < numObj; i++)
+	//{
+	//	MyEntity* pEntity = m_pEntityMngr->GetEntity(i);
+	//	MyRigidBody* pRigidBody = pEntity->GetRigidBody();
+	//	minMaxList.push_back(pRigidBody->GetMinGlobal());
+	//	minMaxList.push_back(pRigidBody->GetMaxGlobal());
+	//}
 
-	//creating rigidbody with the lisr of all max and min vertices data
-	MyRigidBody* pRigidBody = new MyRigidBody(minMaxList);
+	////creating rigidbody with the list of all max and min vertices data
+	//MyRigidBody* pRigidBody = new MyRigidBody(minMaxList);
 
-	vector3 halfWidth = pRigidBody->GetHalfWidth();
+	//vector3 halfWidth = pRigidBody->GetHalfWidth();
+	vector3 halfWidth = (max - min) / 2;
 	float maxWidth = halfWidth.x;
 
 	//compare the three half width each other with the x component and when one is bigger than the other, then update the maximum half width
@@ -136,16 +137,18 @@ MyOctant::MyOctant(uint maxLvl, uint numEntity)
 		}
 	}
 
-	vector3 center = pRigidBody->GetCenterLocal();
-	minMaxList.clear();
-	SafeDelete(pRigidBody);
+	vector3 center = (max + min)/2;
+	//minMaxList.clear();
+	//SafeDelete(pRigidBody);
 
 	//the length is the twice of the half width
-	m_fSize = maxWidth * 2.0f;
+	m_v3Size = halfWidth * 2.0f;
 	m_v3Center = center;
 	//updated minimum and maximum vertices for the larger boundary
-	m_v3Min = m_v3Center - (vector3(maxWidth));
-	m_v3Max = m_v3Center + (vector3(maxWidth));
+	m_v3Max = max;
+	m_v3Min = min;
+	//m_v3Min = m_v3Center - (vector3(maxWidth));
+	//m_v3Max = m_v3Center + (vector3(maxWidth));
 
 	//incrememting the count by 1 after updating
 	m_uOctantCount++;
@@ -153,15 +156,15 @@ MyOctant::MyOctant(uint maxLvl, uint numEntity)
 	ConstructTree(m_uMaxLevel);
 }
 // another contructor
-MyOctant::MyOctant(vector3 center, float sizeOfOctant)
+MyOctant::MyOctant(vector3 center, vector3 sizeOfOctant)
 {
 	//initialize the default data
 	Init();
 	m_v3Center = center;
-	m_fSize = sizeOfOctant;
+	m_v3Size = sizeOfOctant;
 
-	m_v3Min = m_v3Center - (vector3(m_fSize) / 2.0f);
-	m_v3Max = m_v3Center + (vector3(m_fSize) / 2.0f);
+	m_v3Min = m_v3Center - (vector3(m_v3Size) / 2.0f);
+	m_v3Max = m_v3Center + (vector3(m_v3Size) / 2.0f);
 
 	//incrememting the count by 1 after updating
 	m_uOctantCount++;
@@ -175,7 +178,7 @@ MyOctant::MyOctant(MyOctant const& other)
 	m_v3Min = other.m_v3Min;
 	m_v3Max = other.m_v3Max;
 
-	m_fSize = other.m_fSize;
+	m_v3Size = other.m_v3Size;
 	m_uID = other.m_uID;
 	m_uLevel = other.m_uLevel;
 	m_pParent = other.m_pParent;
@@ -211,9 +214,9 @@ MyOctant::~MyOctant()
 	Release();
 }
 
-float MyOctant::GetSize(void)
+vector3 MyOctant::GetSize(void)
 {
-	return m_fSize;
+	return m_v3Size;
 }
 
 vector3 MyOctant::GetCenterGlobal(void)
@@ -248,49 +251,33 @@ void MyOctant::Subdivide(void)
 	}
 
 	//children will now be 8
-	m_uChildren = 8;
+	m_uChildren = 4;
 
 	vector3 center;
-	float halfSizeCenter = m_fSize / 4.0f;
-	float sizeCenter = halfSizeCenter * 2.0f;
+	vector3 halfSizeCenter = m_v3Size / 4.0f; halfSizeCenter.y = m_v3Size.y;
+	vector3 sizeCenter = halfSizeCenter * 2.0f; sizeCenter.y = m_v3Size.y;
 
-	//staring a the left, bottom, back
+	//starting at the left, back
 	center = m_v3Center;
-	center.x -= halfSizeCenter;
-	center.y -= halfSizeCenter;
-	center.z -= halfSizeCenter;
+	center.x -= halfSizeCenter.x;
+	center.z -= halfSizeCenter.z;
 	m_pChild[0] = new MyOctant(center, sizeCenter);
 
-	//second one will be at right, bottom, back
-	center.x += sizeCenter;
+	//second one will be at right, back
+	center.x += sizeCenter.x;
 	m_pChild[1] = new MyOctant(center, sizeCenter);
 
-	//third one will be at right, bottom, front
-	center.z += sizeCenter;
+	//third one will be at right, front
+	center.z += sizeCenter.z;
 	m_pChild[2] = new MyOctant(center, sizeCenter);
 
-	//fourth one will be at left, bottom, front
-	center.x -= sizeCenter;
+	//fourth one will be at left, front
+	center.x -= sizeCenter.x;
 	m_pChild[3] = new MyOctant(center, sizeCenter);
 
-	//fifth one will be at left, top, front
-	center.y += sizeCenter;
-	m_pChild[4] = new MyOctant(center, sizeCenter);
 
-	//sixth one will be at left, top, back
-	center.z -= sizeCenter;
-	m_pChild[5] = new MyOctant(center, sizeCenter);
-
-	//seventh one will be at right, top, back
-	center.x += sizeCenter;
-	m_pChild[6] = new MyOctant(center, sizeCenter);
-
-	//eigth one will be at left, top, back
-	center.z += sizeCenter;
-	m_pChild[7] = new MyOctant(center, sizeCenter);
-
-	//for all 8 children ...
-	for (uint i = 0; i < 8; i++)
+	//for all 4 children ...
+	for (uint i = 0; i < 4; i++)
 	{
 		//update the level number, root and parent
 		m_pChild[i]->m_pRoot = m_pRoot;
@@ -309,7 +296,7 @@ void MyOctant::Subdivide(void)
 //returns the child specified in the index
 MyOctant* MyOctant::GetChild(uint numChild)
 {
-	if (numChild > 7)
+	if (numChild > 3)
 	{
 		return nullptr;
 	}
@@ -415,7 +402,7 @@ void MyOctant::Display(uint indexNum, vector3 color)
 {
 	if (m_uID == indexNum)
 	{
-		m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSize)), color, RENDER_WIRE);
+		m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_v3Size)), color, RENDER_WIRE);
 		return;
 	}
 
@@ -432,7 +419,7 @@ void MyOctant::Display(vector3 color)
 	{
 		m_pChild[i]->Display(color);
 	}
-	m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSize)), color, RENDER_WIRE);
+	m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_v3Size)), color, RENDER_WIRE);
 }
 
 //Displays the non empty leafs in the octree
@@ -443,7 +430,7 @@ void MyOctant::DisplayLeafs(vector3 color)
 	{
 		m_lChild[i]->DisplayLeafs(color);
 	}
-	m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSize)), color, RENDER_WIRE);
+	m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_v3Size)), color, RENDER_WIRE);
 }
 
 //clears the list

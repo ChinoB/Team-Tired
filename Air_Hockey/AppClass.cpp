@@ -94,11 +94,22 @@ void Application::InitVariables(void)
 	// create the puck
 	addPuck();
 
+	// vectors for the collision space
 	maxTable = m_pEntityMngr->GetEntity(2)->GetRigidBody()->GetMaxGlobal();// -2.5f;
 	minTable = m_pEntityMngr->GetEntity(2)->GetRigidBody()->GetMinGlobal();// +2.5f;
 
+	float spaceTop = m_pEntityMngr->GetEntity(3)->GetRigidBody()->GetMaxGlobal().y;
+	float spaceBottom = m_pEntityMngr->GetEntity(3)->GetRigidBody()->GetMinGlobal().y;
+	
+	maxTable.y = spaceTop;
+	minTable.y = spaceBottom;
+
+	printf("Table min: [%f, %f, %f]\n", minTable.x, minTable.y, minTable.z);
+	printf("Table max: [%f, %f, %f]\n", maxTable.x, maxTable.y, maxTable.z);
+
+	// create octree (with only one t)
 	m_uOctantLevels = 0;
-	m_pRoot = new MyOctant(m_uOctantLevels, 5);
+	m_pRoot = new MyOctant(m_uOctantLevels, 5, minTable, maxTable);
 	m_pEntityMngr->Update();
 
 	//create clock for delta time
@@ -163,6 +174,9 @@ void Application::Update(void)
 
 	//Update Entity Manager
 	m_pEntityMngr->Update();
+
+	m_pRoot->AssignIDtoEntity();
+	//m_pRoot->ConstructTree(m_uOctantLevels);
 
 	//Render everything except the MousePlane
 	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
