@@ -36,11 +36,24 @@ void Application::ProcessMousePressed(sf::Event a_event)
 }
 void Application::ProcessMouseReleased(sf::Event a_event)
 {
+	MyEntity* puck;
+	MyEntity* mouseBoardOrSomething;
+	std::pair<vector3, vector3> rayStartEnd;
+	vector3 start, end;
 	switch (a_event.mouseButton.button)
 	{
 	default: break;
 	case sf::Mouse::Button::Left:
 		gui.m_bMousePressed[0] = false;
+		puck = m_pEntityMngr->GetEntity(0);
+		mouseBoardOrSomething = m_pEntityMngr->GetEntity(1);
+		rayStartEnd = m_pCameraMngr->GetClickAndDirectionOnWorldSpace(m_v3Mouse.x, m_v3Mouse.y, -1);
+
+		start = rayStartEnd.first;
+		end = rayStartEnd.second;
+
+		printf("%10.2f, %10.2f, %10.2f\t->%10.2f, %10.2f, %10.2f\n", start.x, start.y, start.z, end.x, end.y, end.z);
+
 		break;
 	case sf::Mouse::Button::Middle:
 		gui.m_bMousePressed[1] = false;

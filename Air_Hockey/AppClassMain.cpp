@@ -145,7 +145,6 @@ void Application::Run(void)
 				break;
 			case sf::Event::MouseButtonPressed:
 				ProcessMousePressed(appEvent);
-				printf("hi\n");
 				break;
 			case sf::Event::MouseButtonReleased:
 				ProcessMouseReleased(appEvent);
