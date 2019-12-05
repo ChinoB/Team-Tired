@@ -221,7 +221,7 @@ namespace Simplex
 
 } //namespace Simplex
 
-#endif //__OCTANTCLASS_H_
+#endif //__MYOCTANTCLASS_H_
 
   /*
   USAGE:
