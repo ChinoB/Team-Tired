@@ -16,7 +16,6 @@ void Application::DrawGUI(void)
 
 	m_pMeshMngr->Print("Next puck in: ");//Add a line on top
 	m_pMeshMngr->PrintLine(std::to_string(3.0f - ((float)((int)(m_fCurrent*100 + .5))/100)).substr(0,4), C_YELLOW);
-	m_pMeshMngr->Print(" seconds");
 
 	//m_pMeshMngr->Print("						");
 	m_pMeshMngr->Print("FPS:");
