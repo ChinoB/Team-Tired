@@ -167,7 +167,7 @@ void Application::Update(void)
 	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
 	{
 		if (m_pEntityMngr->GetEntity(i)->GetTag() == "Puck")
-			thereIsAPuck = true;;
+			thereIsAPuck = true;
 	}
 	if (!thereIsAPuck)
 		addPuck();

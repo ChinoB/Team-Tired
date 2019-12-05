@@ -346,5 +346,6 @@ void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 void Simplex::MyEntity::Bounce(MyEntity* bounced)
 {
 	bounced->SetVelocity(vector3(bounced->GetVelocity().x * -1, bounced->GetVelocity().y * -1, bounced->GetVelocity().z*-1)); //make the object go opposite the direction before getting bounced
-	bounced->ApplyForce(bounced->GetVelocity()); //Apply the new velocity as a force to ensure the bounce effect works (without this, the object would get sucked to the bouncer)
+	
+	bounced->ApplyForce(bounced->GetVelocity()/(2.0f*bounced->GetMass())); //Apply the new velocity as a force to ensure the bounce effect works (without this, the object would get sucked to the bouncer)
 }

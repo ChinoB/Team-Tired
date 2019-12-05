@@ -4,32 +4,11 @@ ImGuiObject Application::gui;
 void Application::DrawGUI(void)
 {
 #pragma region Debugging Information
-	//Print info on the screen
-	for (int i = 0; i < 10; i++)
-	{
-		m_pMeshMngr->PrintLine("");//Add a line on top
-	}
-
-	//m_pMeshMngr->Print("                        ");
-	m_pMeshMngr->Print("Player Score: ");//Add a line on top
-	m_pMeshMngr->PrintLine(std::to_string(m_pEntityMngr->GetScore()), C_YELLOW);
-
-	m_pMeshMngr->Print("Next puck in: ");//Add a line on top
-	m_pMeshMngr->PrintLine(std::to_string(3.0f - ((float)((int)(m_fCurrent*100 + .5))/100)).substr(0,4), C_YELLOW);
-	m_pMeshMngr->Print(" seconds");
-
-	//m_pMeshMngr->Print("						");
-	m_pMeshMngr->Print("FPS:");
-	m_pMeshMngr->PrintLine(std::to_string(m_pSystem->GetFPS()), C_RED);
 	
 	for (uint i = 0; i < 15; i++)
 		m_pMeshMngr->PrintLine("");
 
-	//print the position of the object to the screen
-	vector3 v3Position = m_pEntityMngr->GetEntity(0)->GetPosition();
-	m_pMeshMngr->PrintLine("Mouse Position: ("+ std::to_string(v3Position.x)+", "+ 
-		std::to_string(v3Position.y) + ", "+
-		std::to_string(v3Position.z) + ")",  C_BLUE);
+	
 #pragma endregion
 
 	//Calculate the window size to know how to draw
@@ -50,13 +29,8 @@ void Application::DrawGUI(void)
 			ImGui::Text("FrameRate: %.2f [FPS] -> %.3f [ms/frame]\n",
 				ImGui::GetIO().Framerate, 1000.0f / ImGui::GetIO().Framerate);
 			ImGui::Separator();
-			ImGui::Text("Control:\n");
-			ImGui::Text("   WASD: Movement\n");
-			ImGui::Text("   Space: Spawn pucks\n");
-			ImGui::Text("	 F1: Perspective\n");
-			ImGui::Text("	 F2: Orthographic X\n");
-			ImGui::Text("	 F3: Orthographic Y\n");
-			ImGui::Text("	 F4: Orthographic Z\n");
+			ImGui::Text("Score: %d\n", m_pEntityMngr->GetScore());
+			ImGui::Text("Next puck in %.2f seconds", 3.0f - ((float)((int)(m_fCurrent * 100 + .5)) / 100));
 			ImGui::Separator();
 			ImGui::Text(" PageUp: Increment Octant display\n");
 			ImGui::Text(" PageDw: Decrement Octant display\n");
