@@ -217,6 +217,13 @@ public:
 	void ResolveCollision(MyEntity* a_pOther);
 
 	/*
+	USAGE: Asks the entity to resolve the collision with another puck
+	ARGUMENTS: MyEntity* a_pOther -> Queried entity
+	OUTPUT: ---
+	*/
+	void ResolvePuckCollision(MyEntity* a_pOther);
+
+	/*
 	USAGE: Gets the solver applied to this MyEntity
 	ARGUMENTS: ---
 	OUTPUT: MySolver applied

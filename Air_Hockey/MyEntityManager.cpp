@@ -186,11 +186,14 @@ void Simplex::MyEntityManager::Update(void)
 			if (m_mEntityArray[i]->IsColliding(m_mEntityArray[j]))
 			{
 				//If something collides with the bumper, have the object bounce
-				if (m_mEntityArray[i]->GetTag() == "Bumper" || m_mEntityArray[i]->GetTag()=="Puck")
+				if (m_mEntityArray[i]->GetTag() == "Bumper" || m_mEntityArray[i]->GetTag()=="Puck" || m_mEntityArray[i]->GetTag() == "Bouncer")
 				{
-					m_mEntityArray[i]->Bounce(m_mEntityArray[j]);
+					m_mEntityArray[i]->ResolvePuckCollision(m_mEntityArray[j]);
 				}
-				m_mEntityArray[i]->ResolveCollision(m_mEntityArray[j]);
+				else {
+					m_mEntityArray[i]->ResolveCollision(m_mEntityArray[j]);
+				}
+				
 			}
 		}
 

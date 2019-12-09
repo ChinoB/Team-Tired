@@ -125,6 +125,12 @@ public:
 	OUTPUT: ---
 	*/
 	void ResolveCollision(MySolver* a_pOther);
+	/*
+	USAGE: Resolve the collision between two pucks
+	ARGUMENTS: MySolver* a_pOther -> other solver to resolve collision with
+	OUTPUT: ---
+	*/
+	void ResolvePuckCollision(MySolver* a_pOther);
 private:
 	/*
 	Usage: Deallocates member fields
