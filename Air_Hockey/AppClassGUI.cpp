@@ -32,9 +32,7 @@ void Application::DrawGUI(void)
 			ImGui::Text("Score: %d\n", m_pEntityMngr->GetScore());
 			ImGui::Text("Next puck in %.2f seconds", 3.0f - ((float)((int)(m_fCurrent * 100 + .5)) / 100));
 			ImGui::Separator();
-			ImGui::Text(" PageUp: Increment Octant display\n");
-			ImGui::Text(" PageDw: Decrement Octant display\n");
-			ImGui::Text("Levels in Octree: %d\n", m_uOctantLevels);
+			ImGui::Text("Toggle QuadTree with T");
 			ImGui::Separator();
 			//ImGui::Text("Arrows: Apply force to Steve\n");
 			//ImGui::Text("Min table: [", minTable.x, ", ", minTable.y, ", ", minTable.z, "]");

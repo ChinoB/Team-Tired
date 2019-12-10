@@ -147,7 +147,12 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 			m_pRoot = new MyOctant(m_uOctantLevels, 5, minTable, maxTable);
 
 		}*/
+		//break;
+
+	case sf::Keyboard::T:
+		showQuadtree = !showQuadtree;
 		break;
+
 	case sf::Keyboard::LShift:
 	case sf::Keyboard::RShift:
 		m_bModifier = false;

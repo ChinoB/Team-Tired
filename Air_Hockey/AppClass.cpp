@@ -115,8 +115,8 @@ void Application::InitVariables(void)
 }
 void Application::Update(void)
 {
-	m_uOctantLevels = 5;
-	m_pRoot = new MyOctant(m_uOctantLevels, 5, minTable, maxTable);
+	m_uOctantLevels = 3;
+	m_pRoot = new MyOctant(m_uOctantLevels, 3, minTable, maxTable);
 
 	//Update the system so it knows how much time has passed since the last call
 	m_pSystem->Update();
@@ -195,17 +195,10 @@ void Application::Display(void)
 	m_pMeshMngr->AddSkyboxToRenderList();
 
 	//display octree
-	/*if (m_uOctantID == -1)
+	if(showQuadtree == true)
 	{
+		m_pRoot->Display();
 	}
-
-	else
-	{
-		m_pRoot->Display(m_uOctantID);
-	}*/
-
-	m_pRoot->Display();
-
 
 	//render list call
 	m_uRenderCallCount = m_pMeshMngr->Render();

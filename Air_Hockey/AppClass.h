@@ -30,6 +30,9 @@ class Application
 	vector3 v3Position;
 	matrix4 m4Position;
 
+	bool showQuadtree = false;
+
+
 private:
 	String m_sProgrammer = "Chino Barcelona \nJoseph Hong \nQuinn Hopwood \nCail Umbraugh "; //programmer
 
