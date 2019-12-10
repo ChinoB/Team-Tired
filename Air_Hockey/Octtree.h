@@ -1,5 +1,5 @@
 /*----------------------------------------------
-Programmer: Joseph Hong (jsh7099@rit.edu)  -- header file Referenced from C20 (Entity_Manager notes)
+Programmer: Joseph Hong (jsh7099@rit.edu)  -- This is changed to a quad tree
 Date: 2019/11
 ----------------------------------------------*/
 #ifndef __MYOCTANTCLASS_H_

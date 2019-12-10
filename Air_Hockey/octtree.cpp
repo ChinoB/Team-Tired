@@ -213,7 +213,7 @@ vector3 MyOctant::GetMaxGlobal(void)
 }
 
 
-//divide into 8 smaller children
+//divide into 4 smaller children
 void MyOctant::Subdivide(void)
 {
 	//don't subdivide if the current level exceeds the maximum possible level
@@ -228,7 +228,7 @@ void MyOctant::Subdivide(void)
 		return;
 	}
 
-	//children will now be 8
+	//children will now be 4
 	m_uChildren = 4;
 
 	vector3 center;
@@ -263,7 +263,7 @@ void MyOctant::Subdivide(void)
 		m_pChild[i]->m_uLevel = m_uLevel + 1;
 
 
-		//continue subdividing if there are more than entity number (8) inside the cube 
+		//continue subdividing if there are more than entity number (3) inside the cube 
 		if (m_pChild[i]->ContainsMoreThan(m_uIdealEntityCount))
 		{
 			m_pChild[i]->Subdivide();
