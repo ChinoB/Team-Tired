@@ -108,8 +108,6 @@ void Application::InitVariables(void)
 	printf("Table max: [%f, %f, %f]\n", maxTable.x, maxTable.y, maxTable.z);
 
 	// create octree (with only one t)
-	m_uOctantLevels = 0;
-	m_pRoot = new MyOctant(m_uOctantLevels, 5, minTable, maxTable);
 	m_pEntityMngr->Update();
 
 	//create clock for delta time
@@ -117,6 +115,9 @@ void Application::InitVariables(void)
 }
 void Application::Update(void)
 {
+	m_uOctantLevels = 5;
+	m_pRoot = new MyOctant(m_uOctantLevels, 5, minTable, maxTable);
+
 	//Update the system so it knows how much time has passed since the last call
 	m_pSystem->Update();
 

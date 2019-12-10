@@ -107,24 +107,6 @@ MyOctant::MyOctant(uint maxLvl, uint numEntity, vector3 min, vector3 max)
 	m_pRoot = this;
 	m_lChild.clear();
 
-	////list of vector3 that will hold all of the minimum and maximum vectors of the Bounding Object in order to know the boundary for the parent 
-	//vector<vector3> minMaxList;
-
-	//uint numObj = m_pEntityMngr->GetEntityCount();
-
-	////entity and rigidbody will be called for every number of objects
-	//for (uint i = 0; i < numObj; i++)
-	//{
-	//	MyEntity* pEntity = m_pEntityMngr->GetEntity(i);
-	//	MyRigidBody* pRigidBody = pEntity->GetRigidBody();
-	//	minMaxList.push_back(pRigidBody->GetMinGlobal());
-	//	minMaxList.push_back(pRigidBody->GetMaxGlobal());
-	//}
-
-	////creating rigidbody with the list of all max and min vertices data
-	//MyRigidBody* pRigidBody = new MyRigidBody(minMaxList);
-
-	//vector3 halfWidth = pRigidBody->GetHalfWidth();
 	vector3 halfWidth = (max - min) / 2;
 	float maxWidth = halfWidth.x;
 
@@ -138,8 +120,6 @@ MyOctant::MyOctant(uint maxLvl, uint numEntity, vector3 min, vector3 max)
 	}
 
 	vector3 center = (max + min)/2;
-	//minMaxList.clear();
-	//SafeDelete(pRigidBody);
 
 	//the length is the twice of the half width
 	m_v3Size = halfWidth * 2.0f;
@@ -147,8 +127,6 @@ MyOctant::MyOctant(uint maxLvl, uint numEntity, vector3 min, vector3 max)
 	//updated minimum and maximum vertices for the larger boundary
 	m_v3Max = max;
 	m_v3Min = min;
-	//m_v3Min = m_v3Center - (vector3(maxWidth));
-	//m_v3Max = m_v3Center + (vector3(maxWidth));
 
 	//incrememting the count by 1 after updating
 	m_uOctantCount++;
