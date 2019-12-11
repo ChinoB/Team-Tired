@@ -182,8 +182,10 @@ void Application::Update(void)
 	//Render everything except the MousePlane
 	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
 	{
-		if(i != 1)
+		if(i != 1 && showQuadtree)
 			m_pEntityMngr->AddEntityToRenderList(i, true);//draw everything
+		else
+			m_pEntityMngr->AddEntityToRenderList(i, false);//draw everything
 	}
 }
 void Application::Display(void)
